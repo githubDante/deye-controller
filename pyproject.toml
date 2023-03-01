@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "deye-controller"
+version = "0.1.0"
+description = "MODBUS Controller for DEYE inverters"
+authors = ["githubDante <github@dante.tk>"]
+readme = "README.rst"
+packages = [{include = "deye_controller"}]
+
+[tool.poetry.scripts]
+deye-regtest = 'deye_controller.deye_reader:test_register'
+deye-read = 'deye_controller.deye_reader:read_from_inverter'
+deye-scan = 'deye_controller.deye_reader:scan_for_loggers'
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+pysolarmanv5 = "^2.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
