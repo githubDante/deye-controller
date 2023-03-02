@@ -486,11 +486,11 @@ class IntWritable(WritableRegister):
             raise ValueError(f'Value > {self._high} not allowed')
         self.value = x
         if self._signed is True:
-            if -32768 <= x <= 32767:
+            if not -32768 <= x <= 32767:
                 raise ValueError('Value out of range -32768..32767')
             self.modbus_value = signed_to_int(x)
         else:
-            if 0 <= x <= 65535:
+            if not 0 <= x <= 65535:
                 raise ValueError('Value out of range 0..65535')
             self.modbus_value = x
 
@@ -548,5 +548,31 @@ class WriteableRegisters:
     ReactivePowerRegulation = FloatWritable(address=78, signed=False, low_limit=0, high_limit=120, scale=10)
     ApparentPowerRegulation = FloatWritable(address=79, signed=False, low_limit=0, high_limit=120, scale=10)
 
+    SellModeT1 = TimeWritable(148)
+    SellModeT2 = TimeWritable(149)
+    SellModeT3 = TimeWritable(150)
+    SellModeT4 = TimeWritable(151)
+    SellModeT5 = TimeWritable(152)
+    SellModeT6 = TimeWritable(153)
 
+    SellModeWatts1 = IntWritable(154, low_limit=0)
+    SellModeWatts2 = IntWritable(155, low_limit=0)
+    SellModeWatts3 = IntWritable(156, low_limit=0)
+    SellModeWatts4 = IntWritable(157, low_limit=0)
+    SellModeWatts5 = IntWritable(158, low_limit=0)
+    SellModeWatts6 = IntWritable(159, low_limit=0)
 
+    """ Not applicable in Lithium mode """
+    SellModeVolts1 = FloatWritable(160, low_limit=0, high_limit=63, scale=100)
+    SellModeVolts2 = FloatWritable(161, low_limit=0, high_limit=63, scale=100)
+    SellModeVolts3 = FloatWritable(162, low_limit=0, high_limit=63, scale=100)
+    SellModeVolts4 = FloatWritable(163, low_limit=0, high_limit=63, scale=100)
+    SellModeVolts5 = FloatWritable(164, low_limit=0, high_limit=63, scale=100)
+    SellModeVolts6 = FloatWritable(165, low_limit=0, high_limit=63, scale=100)
+
+    SellModeSOC1 = IntWritable(166, low_limit=0, high_limit=100)
+    SellModeSOC2 = IntWritable(167, low_limit=0, high_limit=100)
+    SellModeSOC3 = IntWritable(168, low_limit=0, high_limit=100)
+    SellModeSOC4 = IntWritable(169, low_limit=0, high_limit=100)
+    SellModeSOC5 = IntWritable(170, low_limit=0, high_limit=100)
+    SellModeSOC6 = IntWritable(171, low_limit=0, high_limit=100)
