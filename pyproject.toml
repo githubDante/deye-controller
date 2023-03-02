@@ -8,8 +8,10 @@ packages = [{include = "deye_controller"}]
 
 [tool.poetry.scripts]
 deye-regtest = 'deye_controller.deye_reader:test_register'
+deye-regwrite = 'deye_controller.deye_reader:test_write'
 deye-read = 'deye_controller.deye_reader:read_from_inverter'
 deye-scan = 'deye_controller.deye_reader:scan_for_loggers'
+
 
 [tool.poetry.dependencies]
 python = ">=3.8"
