@@ -43,6 +43,15 @@ def _read_registers(address: str, logger_serial: int, start: int, length: int):
         print('Read failed! Try again.')
 
 
+def _write_register(address: str, logger: int, reg_address: int, val: int):
+    inv = PySolarmanV5(address, int(logger), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10)
+    try:
+        res = inv.write_multiple_holding_registers(reg_address, [val])
+        print(f'Wrote: {res}')
+    except (V5FrameError, TimeoutError):
+        print('Write failed! Try again later.')
+
+
 def read_from_inverter():
     parser = ArgumentParser('deye-read')
     parser.add_argument('--battery', help='Read only battery related parameters', action='store_true')
@@ -63,6 +72,18 @@ def test_register():
 
     opt = parser.parse_args()
     _read_registers(opt.address, opt.serial, opt.start, opt.end)
+
+
+def test_write():
+    parser = ArgumentParser('deye-regwrite')
+    parser.add_argument('address', help='Datalogger IP address')
+    parser.add_argument('serial', help='Datalogger serial', type=int)
+    parser.add_argument('register', type=int, help='Register address')
+    parser.add_argument('value', type=int, help='Value to write')
+
+    opts = parser.parse_args()
+
+    _write_register(opts.address, opts.serial, opts.register, opts.value)
 
 
 def scan_for_loggers():
