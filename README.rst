@@ -7,13 +7,14 @@ DEYE-controller
     - deye-read - read everything from the inverter (use --help for filters/options)
     - deye-regcheck - for quick check on specific register(s)
     - deye-scan is a scanner for dataloggers in the local network (not DEYE related)
+    - deye-regwrite - for writing to individual registers
 
 * Tested with:
     - SUN-12K-SG04LP3 / LSW-3
 
 TODO List
 =============
-* Support writing to all registers
+* Support for writing to all registers
 
 
 Examples
