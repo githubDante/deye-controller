@@ -152,15 +152,16 @@ class ChargeTimePoint(Register):
     def __init__(self, address, name):
         super(ChargeTimePoint, self).__init__(address, 1, name)
 
-    def format(self) -> str:
+    def format(self):
         """
         Bit 0 - Grid charge enabled / disabled
         Bit 1 - Generator charge enabled / disabled
         :return:
         :rtype:
         """
-        return '{:02b}'.format(self.value)
-    
+        #return '{:02b}'.format(self.value)
+        return ChargeGridGen(self.value)
+
 
 class GridFrequency(Register):
     
@@ -542,7 +543,17 @@ class TimeWritable(WritableRegister):
                 raise ValueError(f'Invalid value [{x}]. Strings must be <hour>:<minute> formatted')
 
 
-class WriteableRegisters:
+class GridGenWritable(WritableRegister):
+
+    def __init__(self, address):
+        super(GridGenWritable, self).__init__(address)
+
+    def set(self, x: ChargeGridGen):
+        self.modbus_value = x.value
+        self.value = x
+
+
+class WritableRegisters:
 
     ActivePowerRegulation = FloatWritable(address=77, signed=False, low_limit=0, high_limit=120, scale=10)
     ReactivePowerRegulation = FloatWritable(address=78, signed=False, low_limit=0, high_limit=120, scale=10)
@@ -576,3 +587,11 @@ class WriteableRegisters:
     SellModeSOC4 = IntWritable(169, low_limit=0, high_limit=100)
     SellModeSOC5 = IntWritable(170, low_limit=0, high_limit=100)
     SellModeSOC6 = IntWritable(171, low_limit=0, high_limit=100)
+
+    """ Grid / Generator selection """
+    ChargeGridGen1 = GridGenWritable(172)
+    ChargeGridGen2 = GridGenWritable(173)
+    ChargeGridGen3 = GridGenWritable(174)
+    ChargeGridGen4 = GridGenWritable(175)
+    ChargeGridGen5 = GridGenWritable(176)
+    ChargeGridGen6 = GridGenWritable(177)
