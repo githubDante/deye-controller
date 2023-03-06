@@ -65,3 +65,28 @@ class BMSMode(int, enum.Enum):
         return BMSMode.PYLONTech_CAN
 
 
+class TimeOfUse(int, enum.Enum):
+    """ Time of Use settings on the inverter screen """
+    ENABLED = 1 << 0
+    MONDAY = 1 << 1
+    TUESDAY = 1 << 2
+    WEDNESDAY = 1 << 3
+    THURSDAY = 1 << 4
+    FRIDAY = 1 << 5
+    SATURDAY = 1 << 6
+    SUNDAY = 1 << 7
+
+
+class ChargeGridGen(int, enum.Enum):
+    """ Grid / Generator charge states """
+    GridGenDisabled     = 0  # Only from PV
+    GridEnabled         = 1
+    GenEnabled          = 2
+    GridGenEnabled      = 3
+
+    @classmethod
+    def _missing_(cls, value: object):
+        return ChargeGridGen.GridGenDisabled
+
+    def __format__(self, format_spec):
+        return self.name
