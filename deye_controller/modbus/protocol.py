@@ -72,7 +72,7 @@ class BoolType(Register):
         super(BoolType, self).__init__(address, 1, name)
 
     def format(self) -> str:
-        return 'Enabled' if self.value == 1 else 'Disabled'
+        return 'Active' if self.value == 1 else 'Inactive'
 
 
 class LongType(Register):
@@ -163,6 +163,14 @@ class ChargeTimePoint(Register):
         return ChargeGridGen(self.value)
 
 
+class TimeOfUseSell(Register):
+    def __init__(self):
+        super(TimeOfUseSell, self).__init__(146, 1, 'sell_time_of_use')
+
+    def format(self) -> List[TimeOfUse]:
+        return TimeOfUse.from_int(self.value)
+
+
 class GridFrequency(Register):
     
     def __init__(self):
@@ -238,10 +246,12 @@ class HoldingRegisters:
     BattFloat = FloatType(101, 'batt_float_v', 100, suffix='V')
     BattCapacity = IntType(102, 'batt_capacity', suffix='Ah')
     BattEmptyVoltage = FloatType(103, 'batt_empty_v', 100, suffix='V')
+    ZeroExportPower = IntType(104, 'zero_export_powre', suffix='Days')
     TEMPCO = IntType(107, 'TEMPCO', suffix='mV/*C')
     MaxAmpCharge = IntType(108, 'max_charge_amps', suffix='A')
     MaxAmpDischarge = IntType(109, 'max_discharge_amps', suffix='A')
     BatteryControl = BatteryControl()
+    BattWakeUp = BoolType(112, 'battery_wake_up')
     BattResistance = IntType(113, 'battery_resistance', suffix='mOhm')
     BattChargingEff = FloatType(114, 'battery_charging_eff', 10, suffix='%')
     BattShutDownCapacity = IntType(115, 'battery_shutdown_capacity', suffix='%')
@@ -251,6 +261,12 @@ class HoldingRegisters:
     BattRestartVoltage = FloatType(119, 'battery_restart_voltage', 100, suffix='V')
     BattLowVoltage = FloatType(120, 'battery_low_voltage', 100, suffix='V')
 
+    """ Generator settings up to register 125 """
+    GridChargeStartVolts = FloatType(126, 'grid_charge_start_voltage', 100, suffix='V')
+    GridChargeStartCapacity = IntType(127, 'grid_charge_start_soc', suffix='%')
+    GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
+
+    SellTimeOfUse = TimeOfUseSell()
     SellTimePoint1 = SellTimePoint(148, 'sell_point_t1')
     SellTimePoint2 = SellTimePoint(149, 'sell_point_t2')
     SellTimePoint3 = SellTimePoint(150, 'sell_point_t3')

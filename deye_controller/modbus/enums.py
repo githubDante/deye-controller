@@ -67,14 +67,27 @@ class BMSMode(int, enum.Enum):
 
 class TimeOfUse(int, enum.Enum):
     """ Time of Use settings on the inverter screen """
-    ENABLED = 1 << 0
-    MONDAY = 1 << 1
-    TUESDAY = 1 << 2
-    WEDNESDAY = 1 << 3
-    THURSDAY = 1 << 4
-    FRIDAY = 1 << 5
-    SATURDAY = 1 << 6
-    SUNDAY = 1 << 7
+    ENABLED = 128
+    MONDAY = 64
+    TUESDAY = 32
+    WEDNESDAY = 16
+    THURSDAY = 8
+    FRIDAY = 4
+    SATURDAY = 2
+    SUNDAY = 1
+
+    @staticmethod
+    def from_int(val: int):
+        r = []
+        for u in [TimeOfUse.ENABLED, TimeOfUse.MONDAY, TimeOfUse.TUESDAY, TimeOfUse.WEDNESDAY,
+                  TimeOfUse.THURSDAY, TimeOfUse.FRIDAY, TimeOfUse.SATURDAY, TimeOfUse.SUNDAY]:
+            if val & u == 0:
+                continue
+            r.append(u)
+        return r
+
+    def __format__(self, format_spec):
+        return self.name
 
 
 class ChargeGridGen(int, enum.Enum):
