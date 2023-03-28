@@ -5,7 +5,7 @@ from abc import abstractmethod, ABCMeta
 import enum
 import struct
 from typing import List, Union
-from .utils import to_bytes, to_signed, signed_to_int
+from .utils import to_bytes, to_signed, signed_to_int, to_inv_time
 import datetime
 from .enums import *
 
@@ -553,7 +553,21 @@ class GridGenWritable(WritableRegister):
         self.value = x
 
 
+class DeviceTimeWriteable(WritableRegister):
+
+    def __init__(self):
+        super(DeviceTimeWriteable, self).__init__(62, 3)
+
+    def set(self, x: datetime.datetime):
+        """ Set the time of the inverter """
+        as_ints = [int(u) for u in x.strftime('%y %m %d %H %M %S').split(' ')]
+        self.modbus_value = to_inv_time(as_ints)
+        self.value = x
+
+
 class WritableRegisters:
+
+    DeviceTime = DeviceTimeWriteable()
 
     ActivePowerRegulation = FloatWritable(address=77, signed=False, low_limit=0, high_limit=120, scale=10)
     ReactivePowerRegulation = FloatWritable(address=78, signed=False, low_limit=0, high_limit=120, scale=10)
