@@ -2,6 +2,7 @@
 MODBUS Registers for DEYE 12K Inverters
 """
 from abc import abstractmethod, ABCMeta
+from textwrap import wrap
 import enum
 import struct
 from typing import List, Union
@@ -172,7 +173,9 @@ class TimeOfUseSell(Register):
 
 
 class GridFrequency(Register):
-    
+    """
+    Grid frequency. Can be 50 or 60 Hz
+    """
     def __init__(self):
         super(GridFrequency, self).__init__(183, 1, 'grid_freq_selection')
         self.suffix = 'Hz'
@@ -225,6 +228,23 @@ class BMSLiProto(Register):
 
     def format(self):
         return BMSMode(self.value)
+
+
+class MicroinverterExportCutoff(Register):
+
+    def __init__(self):
+        super(MicroinverterExportCutoff, self).__init__(178, 1, 'export_to_grid_cutoff')
+
+    def format(self):
+        bits = wrap('{:016b}'.format(self.value), 2)
+        enabled = TwoBitState(bits[-1])
+        gen_peak_shaving = TwoBitState(bits[-2])
+        grid_peak_shaving = TwoBitState(bits[-3])
+        on_grid_always_on = TwoBitState(bits[-4])
+        external_realy = TwoBitState(bits[-5])
+        report_loss_of_lithium = TwoBitState(bits[-6])
+        return [enabled, gen_peak_shaving, grid_peak_shaving, on_grid_always_on, external_realy, report_loss_of_lithium]
+
 
 
 class HoldingRegisters:
@@ -302,6 +322,7 @@ class HoldingRegisters:
     ChargeModePoint6 = ChargeTimePoint(177, 'charge_point_t6')
 
     """ Skipped some registers. Needs research """
+    InverterGridExportCutoff = MicroinverterExportCutoff()
 
     GridFrequency = GridFrequency()
     GridHighVoltage = FloatType(185, 'grid_high_voltage', 10, suffix='V')
@@ -309,6 +330,10 @@ class HoldingRegisters:
     GridHighFreq = FloatType(187, 'grid_high_frequency', 100, suffix='Hz')
     GridLowFreq = FloatType(188, 'grid_low_frequency', 100, suffix='Hz')
     GeneratorConnected = BoolType(189, 'generator_to_grid')
+
+    GeneratorPeakShavingPower = IntType(190, 'gen_peak_shaving_pwr', suffix='W')
+    GridPeakShavingPower = IntType(191, 'grid_peak_shaving_pwr', suffix='W')
+    SmartLoadOpenDelay = IntType(192, 'smart_load_open_delay', suffix='Minutes')
 
     OutputPF = FloatType(193, 'output_power_factor', 10, suffix='%')
 
@@ -328,6 +353,9 @@ class HoldingRegisters:
     BMSBatterySymbol = IntType(222, 'bms_battery_symbol_2')
     BMSType = BMSLiProto()  # 0 - PYLON / SOLAX ... needs enumeration
     BMSBatterySOH = IntType(224, 'bms_battery_soh', signed=True)  # Seems as it's not reported should be -1 all the time
+
+    """ Other """
+    MaxSolarSellPower = IntType(340, 'max_solar_sell_pwr', suffix='W')
 
 
     """ END OF WRITABLE  
