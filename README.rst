@@ -50,3 +50,10 @@ Examples
     |       |       | 23:00 | 00:00 |     3500 |    30% |
     ----------------------------------------------------
     >>> prog.upload_settings()  # In order to upload the settings to the inverter
+
+
+Notes
+=========
+* It is possible the inverter to be completely deactivated by writing 0 to register 80
+  WritableRegisters.SwitchOnOff.set(False) but it will raise an alarm and will show error F19.
+  The normal state is restored as soon as 1 the register is set to its default value 1.
