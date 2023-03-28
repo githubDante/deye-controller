@@ -167,8 +167,8 @@ class TimeOfUseSell(Register):
     def __init__(self):
         super(TimeOfUseSell, self).__init__(146, 1, 'sell_time_of_use')
 
-    def format(self) -> List[TimeOfUse]:
-        return TimeOfUse.from_int(self.value)
+    def format(self) -> List[str]:
+        return [f'TimeOfUse - {x}' for x in TimeOfUse.from_int(self.value)]
 
 
 class GridFrequency(Register):
@@ -227,8 +227,6 @@ class BMSLiProto(Register):
         return BMSMode(self.value)
 
 
-
-
 class HoldingRegisters:
 
     DeviceType = DeviceType()
@@ -240,13 +238,14 @@ class HoldingRegisters:
     """ Not defined here """
     CommAddress = IntType(74, 'comm_address')
     SwitchOnOff = BoolType(80, 'switch_on_off')
+    ''' Switch On / Off the inverter '''
     ControlMode = InverterControlMode()
     BattEqualization = FloatType(99, 'batt_equalization_v', 100, suffix='V')
     BattAbsorbtion = FloatType(100, 'batt_absorbtion_v', 100, suffix='V')
     BattFloat = FloatType(101, 'batt_float_v', 100, suffix='V')
     BattCapacity = IntType(102, 'batt_capacity', suffix='Ah')
     BattEmptyVoltage = FloatType(103, 'batt_empty_v', 100, suffix='V')
-    ZeroExportPower = IntType(104, 'zero_export_powre', suffix='Days')
+    ZeroExportPower = IntType(104, 'zero_export_power', suffix='W')
     TEMPCO = IntType(107, 'TEMPCO', suffix='mV/*C')
     MaxAmpCharge = IntType(108, 'max_charge_amps', suffix='A')
     MaxAmpDischarge = IntType(109, 'max_discharge_amps', suffix='A')
@@ -513,6 +512,10 @@ class IntWritable(WritableRegister):
 
 
 class FloatWritable(WritableRegister):
+    """
+    For registers which accept float values. The modbus value is calculated
+        when a value is added via the set() method
+    """
 
     def __init__(self, address, signed=False, scale=100, low_limit=None, high_limit=None):
         super(FloatWritable, self).__init__(address)
@@ -538,7 +541,9 @@ class FloatWritable(WritableRegister):
 
 
 class TimeWritable(WritableRegister):
-    """ Register to which hour:minutes can be written """
+    """ Register to which hour:minutes can be written
+        Part of the Sell programmer of the inverter
+    """
 
     def __init__(self, address):
         super(TimeWritable, self).__init__(address)
@@ -570,7 +575,9 @@ class GridGenWritable(WritableRegister):
 
 
 class DeviceTimeWriteable(WritableRegister):
-
+    """
+    Adjustments of the system time of the inverter
+    """
     def __init__(self):
         super(DeviceTimeWriteable, self).__init__(62, 3)
 
@@ -581,6 +588,26 @@ class DeviceTimeWriteable(WritableRegister):
         self.value = x
 
 
+class BoolWritable(WritableRegister):
+
+    """
+    Bool type for holding registers accepting only this type
+    """
+    def __init__(self, address):
+        super(BoolWritable, self).__init__(address)
+
+    def set(self, x: bool):
+        """
+        Bool type: False - Off/Disabled, True On/Enabled
+        :param x:
+        :return:
+        """
+        if not isinstance(x, bool):
+            raise ValueError
+        self.modbus_value = int(x)
+        self.value = x
+
+
 class WritableRegisters:
 
     DeviceTime = DeviceTimeWriteable()
@@ -588,6 +615,8 @@ class WritableRegisters:
     ActivePowerRegulation = FloatWritable(address=77, signed=False, low_limit=0, high_limit=120, scale=10)
     ReactivePowerRegulation = FloatWritable(address=78, signed=False, low_limit=0, high_limit=120, scale=10)
     ApparentPowerRegulation = FloatWritable(address=79, signed=False, low_limit=0, high_limit=120, scale=10)
+
+    SwitchOnOff = BoolWritable(address=80)
 
     SellModeT1 = TimeWritable(148)
     SellModeT2 = TimeWritable(149)
