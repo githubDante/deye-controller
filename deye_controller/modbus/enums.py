@@ -103,3 +103,17 @@ class ChargeGridGen(int, enum.Enum):
 
     def __format__(self, format_spec):
         return self.name
+
+
+class TwoBitState(str, enum.Enum):
+    """
+    States as described for register 178
+    """
+    Disabled = '10'
+    Enabled = '11'
+    Undefined_1 = '00'
+    Undefined_2 = '01'
+
+    @classmethod
+    def _missing_(cls, value: object):
+        return TwoBitState.Undefined_1
