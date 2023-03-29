@@ -285,6 +285,7 @@ class HoldingRegisters:
     GridChargeStartCapacity = IntType(127, 'grid_charge_start_soc', suffix='%')
     GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
 
+    GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SellTimeOfUse = TimeOfUseSell()
     SellTimePoint1 = SellTimePoint(148, 'sell_point_t1')
     SellTimePoint2 = SellTimePoint(149, 'sell_point_t2')
@@ -645,6 +646,8 @@ class WritableRegisters:
     ApparentPowerRegulation = FloatWritable(address=79, signed=False, low_limit=0, high_limit=120, scale=10)
 
     SwitchOnOff = BoolWritable(address=80)
+
+    GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
 
     SellModeT1 = TimeWritable(148)
     SellModeT2 = TimeWritable(149)
