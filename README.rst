@@ -57,3 +57,5 @@ Notes
 * It is possible the inverter to be completely deactivated by writing 0 to register 80
   WritableRegisters.SwitchOnOff.set(False) but it will raise an alarm and will show error F19.
   The normal state is restored as soon as the register is set to its default value 1.
+* The WritableRegisters.GridExportLimit register can be used if the grid export is not desired
+  when the battery is charged and the PV generation exceeds the load.
