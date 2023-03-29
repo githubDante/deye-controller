@@ -78,6 +78,7 @@ class TimeOfUse(int, enum.Enum):
 
     @staticmethod
     def from_int(val: int):
+        """ List representation of the settings which are enabled """
         r = []
         for u in [TimeOfUse.ENABLED, TimeOfUse.MONDAY, TimeOfUse.TUESDAY, TimeOfUse.WEDNESDAY,
                   TimeOfUse.THURSDAY, TimeOfUse.FRIDAY, TimeOfUse.SATURDAY, TimeOfUse.SUNDAY]:
@@ -105,15 +106,21 @@ class ChargeGridGen(int, enum.Enum):
         return self.name
 
 
-class TwoBitState(str, enum.Enum):
+class TwoBitState(int, enum.Enum):
     """
     States as described for register 178
+    00 / 01 (binary) - means not defined / not used
+    10 (binary) - disabled
+    11 (binary) - enabled   
     """
-    Disabled = '10'
-    Enabled = '11'
-    Undefined_1 = '00'
-    Undefined_2 = '01'
+    Undefined_1 = 0
+    Undefined_2 = 1
+    Disabled = 2
+    Enabled = 3
 
     @classmethod
     def _missing_(cls, value: object):
         return TwoBitState.Undefined_1
+
+    def __format__(self, format_spec):
+        return self.name

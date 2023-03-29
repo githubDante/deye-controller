@@ -237,14 +237,19 @@ class MicroinverterExportCutoff(Register):
 
     def format(self):
         bits = wrap('{:016b}'.format(self.value), 2)
-        enabled = TwoBitState(bits[-1])
-        gen_peak_shaving = TwoBitState(bits[-2])
-        grid_peak_shaving = TwoBitState(bits[-3])
-        on_grid_always_on = TwoBitState(bits[-4])
-        external_realy = TwoBitState(bits[-5])
-        report_loss_of_lithium = TwoBitState(bits[-6])
-        return [enabled, gen_peak_shaving, grid_peak_shaving, on_grid_always_on, external_realy, report_loss_of_lithium]
-
+        enabled = TwoBitState(int(bits[-1], base=2))
+        gen_peak_shaving = TwoBitState(int(bits[-2], base=2))
+        grid_peak_shaving = TwoBitState(int(bits[-3], base=2))
+        on_grid_always_on = TwoBitState(int(bits[-4], base=2))
+        external_relay = TwoBitState(int(bits[-5], base=2))
+        report_loss_of_lithium = TwoBitState(int(bits[-6], base=2))
+        return {'enabled': enabled,
+                'generator_peak_shaving': gen_peak_shaving,
+                'grid_peak_shaving': grid_peak_shaving,
+                'on_grid_always_on': on_grid_always_on,
+                'external_relay': external_relay,
+                'report_loss_of_lithium': report_loss_of_lithium
+                }
 
 
 class HoldingRegisters:
