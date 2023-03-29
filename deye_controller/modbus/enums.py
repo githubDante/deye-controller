@@ -67,14 +67,14 @@ class BMSMode(int, enum.Enum):
 
 class TimeOfUse(int, enum.Enum):
     """ Time of Use settings on the inverter screen """
-    ENABLED = 128
-    MONDAY = 64
-    TUESDAY = 32
-    WEDNESDAY = 16
-    THURSDAY = 8
-    FRIDAY = 4
-    SATURDAY = 2
-    SUNDAY = 1
+    ENABLED = 1
+    MONDAY = 2
+    TUESDAY = 4
+    WEDNESDAY = 8
+    THURSDAY = 16
+    FRIDAY = 32
+    SATURDAY = 64
+    SUNDAY = 128
 
     @staticmethod
     def from_int(val: int):
