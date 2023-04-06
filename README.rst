@@ -24,7 +24,7 @@ Examples
 
     * read a register from the inverter
 
-    .. code-block::
+    .. code-block:: python
 
         >>> from deye_controller import HoldingRegisters, WritableRegisters
         >>> from pysolarmanv5 import PySolarmanV5
@@ -38,7 +38,7 @@ Examples
 
     * write
 
-    .. code-block::
+    .. code-block:: python
 
         >>> from deye_controller import HoldingRegisters, WritableRegisters
         >>> from pysolarmanv5 import PySolarmanV5
@@ -53,7 +53,7 @@ Examples
 
 * SellMode programming:
 
-  .. code-block::
+  .. code-block:: python
 
     >>> from deye_controller import SellProgrammer
     >>> prog = SellProgrammer('192.168.1.108', 2799999999)
