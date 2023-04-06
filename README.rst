@@ -20,12 +20,42 @@ TODO List
 
 Examples
 ==============
+* Basic usage:
+
+    * read a register from the inverter
+
+    .. code-block::
+
+        >>> from deye_controller import HoldingRegisters, WritableRegisters
+        >>> from pysolarmanv5 import PySolarmanV5
+        >>> inv = PySolarmanV5('192.168.1.100', 2712345678)
+        >>> register = HoldingRegisters.BMSBatteryCapacity
+        >>> res = inv.read_holding_registers(register.address, register.len)
+        >>> register.value = res[0] if register.len == 1 else res
+        >>> print(register.description, register.format(), register.suffix)
+        bms_battery_SOC 24 %
+    ..
+
+    * write
+
+    .. code-block::
+
+        >>> from deye_controller import HoldingRegisters, WritableRegisters
+        >>> from pysolarmanv5 import PySolarmanV5
+        >>> inv = PySolarmanV5('192.168.1.100', 2712345678)
+        >>> register = WritableRegisters.SellModeSOC3
+        >>> register.set(23)
+
+        >>> inv.write_multiple_holding_registers(register.address, [register.modbus_value])
+        1
+
+
 
 * SellMode programming:
 
   .. code-block::
 
-    >>> from deye_controller.sell_programmer import SellProgrammer
+    >>> from deye_controller import SellProgrammer
     >>> prog = SellProgrammer('192.168.1.108', 2799999999)
     >>> prog.show_as_screen()
     ____________________________________________________
