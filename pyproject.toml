@@ -15,7 +15,7 @@ deye-scan = 'deye_controller.deye_reader:scan_for_loggers'
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-pysolarmanv5 = "^2.4.0"
+pysolarmanv5 = ">=2.4.0"
 
 [build-system]
 requires = ["poetry-core"]

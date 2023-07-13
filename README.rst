@@ -79,6 +79,7 @@ Examples
     |       |       | 23:00 | 00:00 |     3500 |    30% |
     ----------------------------------------------------
     >>> prog.upload_settings()  # In order to upload the settings to the inverter
+    >>> prog.disconnect()  # Needed if PySolarmanV5 >= 3.0.0
 
 
 Notes

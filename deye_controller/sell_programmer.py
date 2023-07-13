@@ -169,7 +169,14 @@ class SellProgrammer:
         self.logger = serial
         self.modbus = PySolarmanV5(self.ip_addr, self.logger, port=8899, mb_slave_id=1,
                                    verbose=False, socket_timeout=10)
+
         self.load_settings()
+
+    def disconnect(self):
+        try:
+            self.modbus.disconnect()
+        except:
+            pass
 
     def load_settings(self):
         """

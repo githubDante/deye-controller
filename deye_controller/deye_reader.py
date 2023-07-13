@@ -33,6 +33,11 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
 
         print(string, flush=True)
 
+    try:
+        inv.disconnect()
+    except:
+        pass
+
 
 def _read_registers(address: str, logger_serial: int, start: int, length: int):
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10)
@@ -42,6 +47,11 @@ def _read_registers(address: str, logger_serial: int, start: int, length: int):
     except (V5FrameError, TimeoutError):
         print('Read failed! Try again.')
 
+    try:
+        inv.disconnect()
+    except:
+        pass
+
 
 def _write_register(address: str, logger: int, reg_address: int, val: int):
     inv = PySolarmanV5(address, int(logger), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10)
@@ -50,6 +60,11 @@ def _write_register(address: str, logger: int, reg_address: int, val: int):
         print(f'Wrote: {res}')
     except (V5FrameError, TimeoutError):
         print('Write failed! Try again later.')
+
+    try:
+        inv.disconnect()
+    except:
+        pass
 
 
 def read_from_inverter():
