@@ -33,6 +33,7 @@ Examples
         >>> register.value = res[0] if register.len == 1 else res
         >>> print(register.description, register.format(), register.suffix)
         bms_battery_SOC 24 %
+        >>> inv.disconnect()
     ..
 
     * write
@@ -47,6 +48,7 @@ Examples
 
         >>> inv.write_multiple_holding_registers(register.address, [register.modbus_value])
         1
+        >>> inv.disconnect()
 
 
 
