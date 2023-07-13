@@ -4,7 +4,7 @@ from typing import Union, List, Tuple
 
 def to_bytes(val: Union[int, List[int]]):
     """
-    Convert PDU integer or list with integers to bytes/
+    Convert PDU integer or list with integers to bytes (signed)
 
     It's needed for a bunch of Deye registers (SN, Time, etc.)
 
@@ -15,6 +15,23 @@ def to_bytes(val: Union[int, List[int]]):
         return bytes.fromhex(''.join([struct.pack('>h', x).hex() for x in val]))
     elif isinstance(val, int):
         return struct.pack('>h', val)
+    else:
+        raise ValueError('Not int / List[int]: ', val)
+
+
+def to_unsigned_bytes(val: Union[int, List[int]]) -> bytes:
+    """
+    Convert PDU integer(s) to byte(s)
+
+    Needed for registers marked with Wh/Wh_high/Wh_low in the Modbus documentation
+
+    :param val:
+    :return:
+    """
+    if isinstance(val, List):
+        return bytes.fromhex(''.join([struct.pack('>H', x).hex() for x in val]))
+    elif isinstance(val, int):
+        return struct.pack('>H', val)
     else:
         raise ValueError('Not int / List[int]: ', val)
 

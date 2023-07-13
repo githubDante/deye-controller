@@ -6,7 +6,7 @@ from textwrap import wrap
 import enum
 import struct
 from typing import List, Union
-from .utils import to_bytes, to_signed, signed_to_int, to_inv_time
+from .utils import to_bytes, to_unsigned_bytes, to_signed, signed_to_int, to_inv_time
 import datetime
 from .enums import *
 
@@ -84,6 +84,25 @@ class LongType(Register):
 
     def format(self):
         v = to_bytes(self.value[::-1])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
+
+class LongUnsignedType(Register):
+
+    """
+    All marked as Wh_low / Wh_high word
+    """
+    def __init__(self, address, name, scale, suffix=''):
+        super(LongUnsignedType, self).__init__(address, 2, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_unsigned_bytes(self.value[::-1])
         calculated = int.from_bytes(v, byteorder='big')
         if self.scale == 1:
             return calculated
@@ -379,14 +398,14 @@ class HoldingRegisters:
 
     TodayBuyGrid = FloatType(520, 'today_bought_from_grid', 10, suffix='kWh')
     TodaySoldGrid = FloatType(521, 'today_sold_to_grid', 10, suffix='kWh')
-    TotalBuyGrid = LongType(522, 'total_bought_from_grid', 10, suffix='kWh')
-    TotalSellGrid = LongType(524, 'total_sold_to_grid', 10, suffix='kWh')
-    TodayToLoad =  FloatType(526, 'today_to_load', 10, suffix='kWh')
-    TotalToLoad =  LongType(527, 'total_to_load', 10, suffix='kWh')
+    TotalBuyGrid = LongUnsignedType(522, 'total_bought_from_grid', 10, suffix='kWh')
+    TotalSellGrid = LongUnsignedType(524, 'total_sold_to_grid', 10, suffix='kWh')
+    TodayToLoad = FloatType(526, 'today_to_load', 10, suffix='kWh')
+    TotalToLoad = LongUnsignedType(527, 'total_to_load', 10, suffix='kWh')
     TodayFromPV = FloatType(529, 'today_from_pv', 10, suffix='kWh')
     TodayFromPVString1 = FloatType(530, 'today_from_pv_s1', 10, suffix='kWh')
     TodayFromPVString2 = FloatType(531, 'today_from_pv_s2', 10, suffix='kWh')
-    TotalFromPV = FloatType(534, 'total_from_pv', 10, suffix='kWh')
+    TotalFromPV = LongUnsignedType(534, 'total_from_pv', 10, suffix='kWh')
 
     BatteryTemp = FloatType(586, 'battery_temperature', 100, suffix='°C')
     BatteryVoltage = FloatType(587, 'battery_voltage', 100, suffix='V')
