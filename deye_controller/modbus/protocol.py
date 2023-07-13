@@ -671,6 +671,47 @@ class WritableRegisters:
 
     SwitchOnOff = BoolWritable(address=80)
 
+    BatterControlMode = IntWritable(address=98, low_limit=0, high_limit=1)
+    """" 0 - Lead battery | 1 - Lithium """
+    EqualizationV = FloatWritable(address=99, low_limit=38, high_limit=61, scale=100)
+    AbsorbtionV = FloatWritable(address=100, low_limit=38, high_limit=61, scale=100)
+    FloatV = FloatWritable(address=101, low_limit=38, high_limit=61, scale=100)
+    BatteryCapacity = IntWritable(address=102, low_limit=0, high_limit=2000)
+    BatteryEmptyV = FloatWritable(address=103, low_limit=38, high_limit=61, scale=100)
+    ZeroExportPower = IntWritable(address=104, low_limit=20, high_limit=12000)
+    """ 20 is set as default on the inverter | high - unknown, limited to max power """
+    EqualizatonDaysCycle = IntWritable(address=105, low_limit=0, high_limit=90)
+    EqualizationTime = IntWritable(address=106, low_limit=0, high_limit=20)
+    """ Resolution 30 minutes -> 20 = 10 hours """
+    TEMPCO_mV = IntWritable(address=107, low_limit=0, high_limit=50)
+
+    """ Charge / Discharge """
+    MaxChargeAmps = IntWritable(address=108, low_limit=0, high_limit=185)
+    MaxDischargeAmps = IntWritable(address=109, low_limit=0, high_limit=185)
+
+    BatteryControl = IntWritable(address=111, low_limit=0, high_limit=2)
+    """ See enums.BatteryControlMode """
+
+    BattChargingEfficiency = IntWritable(address=114, low_limit=0, high_limit=100)
+    BattCapacityShutDown = IntWritable(address=115, low_limit=0, high_limit=100)
+    BattCapacityRestart = IntWritable(address=116, low_limit=0, high_limit=100)
+    BattCapacityLow = IntWritable(address=117, low_limit=0, high_limit=100)
+
+    BatteryVoltsShutDown = FloatWritable(address=118, low_limit=38, high_limit=63, scale=100)
+    BatteryVoltsRestart = FloatWritable(address=119, low_limit=38, high_limit=63, scale=100)
+    BatteryVoltsLow = FloatWritable(address=119, low_limit=38, high_limit=63, scale=100)
+
+    GridChargeStartVoltage = FloatWritable(address=126, low_limit=38, high_limit=61, scale=100)
+    GridChargeStartCapacity = IntWritable(address=127, low_limit=0, high_limit=100)
+    """ High limit - 63 in the MODBUS documentation """
+    GridChargeBattCurrent = IntWritable(address=128, low_limit=0, high_limit=185)
+
+    """ Smart load options """
+    SmartLoadOffVoltage = FloatWritable(address=134, low_limit=38, high_limit=63, scale=100)
+    SmartLoadOffCapacity = IntWritable(address=135, low_limit=0, high_limit=100)
+    SmartLoadOnVoltage = FloatWritable(address=136, low_limit=38, high_limit=63, scale=100)
+    SmartLoadOnCapacity = IntWritable(address=137, low_limit=0, high_limit=100)
+
     GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
 
     SellModeT1 = TimeWritable(148)
@@ -709,3 +750,19 @@ class WritableRegisters:
     ChargeGridGen4 = GridGenWritable(175)
     ChargeGridGen5 = GridGenWritable(176)
     ChargeGridGen6 = GridGenWritable(177)
+
+
+    """ Other """
+    RestoreConnectionTime = IntWritable(180, low_limit=10, high_limit=300)
+    """ In seconds ?!? """
+    GridFrequency = IntWritable(183, low_limit=0, high_limit=1)
+    """ 0 - 50Hz | 1 - 60Hz """
+    GridType = IntWritable(184, low_limit=0, high_limit=2)
+    """ 0 - 3_phase | 1 - 1_phase | 2 - split """
+    GridHighVoltage = FloatWritable(185, low_limit=180, high_limit=270, scale=10)
+    GridLowVoltage = FloatWritable(186, low_limit=180, high_limit=270, scale=10)
+    GridFrequencyHigh = FloatWritable(187, low_limit=45, high_limit=65, scale=100)
+    GridFrequencyLow = FloatWritable(188, low_limit=45, high_limit=65, scale=100)
+
+    GridPeakShavingPower = IntWritable(191, low_limit=0, high_limit=16000)
+    """ Watts """
