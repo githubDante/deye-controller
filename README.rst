@@ -15,7 +15,6 @@ DEYE-controller
 
 TODO List
 =============
-* Support for writing to all registers
 
 
 Examples
