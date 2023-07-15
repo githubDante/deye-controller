@@ -2,6 +2,7 @@ from pysolarmanv5 import PySolarmanV5, V5FrameError
 from .modbus.protocol import HoldingRegisters, BatteryOnlyRegisters, TotalPowerOnly
 from .logger_scan import solar_scan
 from argparse import ArgumentParser
+from .utils import group_registers, map_response
 
 
 def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=False, combo=False):
@@ -20,18 +21,19 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
 
     else:
         iterator = HoldingRegisters.as_list()
-    for reg in iterator:
-        res = inv.read_holding_registers(reg.address, reg.len)
-        reg.value = res[0] if reg.len == 1 else res
-        #string = f'[{reg.__class__.__name__}/{reg.description}]: {reg.format()}'
-        if hasattr(reg, 'suffix'):
-            suffix = reg.suffix
-        else:
-            suffix = ''
+    reg_groups = group_registers(iterator)
+    for group in reg_groups:
+        res = inv.read_holding_registers(group.start_address, group.len)
 
-        string = '[{:>35s}]: {} {}'.format(reg.description.title(), reg.format(), suffix)
+        map_response(res, group)
+        for reg in group:
+            if hasattr(reg, 'suffix'):
+                suffix = reg.suffix
+            else:
+                suffix = ''
 
-        print(string, flush=True)
+            string = '[{:>35s}]: {} {}'.format(reg.description.title(), reg.format(), suffix)
+            print(string, flush=True)
 
     try:
         inv.disconnect()
