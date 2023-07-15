@@ -3,7 +3,7 @@ Additional examples
 
 * Faster reading
 
-  ..code-block:: python
+  .. code-block:: python
 
     >>> from pysolarmanv5 import PySolarmanV5
     >>> from deye_controller.utils import group_registers, map_response
@@ -42,6 +42,4 @@ Additional examples
     [               Battery_Charge_Today]: 1.5 kWh
     [            Battery_Discharge_Today]: 0.6 kWh
     >>>
-
-
 
