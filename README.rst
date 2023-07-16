@@ -13,6 +13,14 @@ DEYE-controller
 * Tested with:
     - SUN-12K-SG04LP3 / LSW-3
 
+INSTALL
+========
+
+.. code-block:: console
+
+  pip install deye-controller
+
+
 TODO List
 =============
 
