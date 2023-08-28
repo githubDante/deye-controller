@@ -85,10 +85,10 @@ def test_register():
     parser.add_argument('address', help='Datalogger IP address')
     parser.add_argument('serial', help='Datalogger serial', type=int)
     parser.add_argument('start', type=int, help='Start register', default=1)
-    parser.add_argument('end', type=int, help='End register', default=1)
+    parser.add_argument('count', type=int, help='Number of register to be read', default=1)
 
     opt = parser.parse_args()
-    _read_registers(opt.address, opt.serial, opt.start, opt.end)
+    _read_registers(opt.address, opt.serial, opt.start, opt.count)
 
 
 def test_write():
