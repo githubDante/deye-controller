@@ -310,6 +310,7 @@ class HoldingRegisters:
     GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
 
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
+    SolarSell = BoolType(145, 'solar_sell')
     SellTimeOfUse = TimeOfUseSell()
     SellTimePoint1 = SellTimePoint(148, 'sell_point_t1')
     SellTimePoint2 = SellTimePoint(149, 'sell_point_t2')
@@ -713,6 +714,7 @@ class WritableRegisters:
     SmartLoadOnCapacity = IntWritable(address=137, low_limit=0, high_limit=100)
 
     GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
+    SolarSell = BoolWritable(address=145)
 
     SellModeT1 = TimeWritable(148)
     SellModeT2 = TimeWritable(149)
