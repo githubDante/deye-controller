@@ -394,8 +394,8 @@ class HoldingRegisters:
 
     BatteryChargeToday = FloatType(514, 'battery_charge_today', 10, suffix='kWh')
     BatteryDischargeToday = FloatType(515, 'battery_discharge_today', 10, suffix='kWh')
-    BatteryChargeTotal = LongType(516, 'battery_charge_total', 10, suffix='kWh')
-    BatteryDischargeTotal = LongType(518, 'battery_discharge_total', 10, suffix='kWh')
+    BatteryChargeTotal = LongUnsignedType(516, 'battery_charge_total', 10, suffix='kWh')
+    BatteryDischargeTotal = LongUnsignedType(518, 'battery_discharge_total', 10, suffix='kWh')
 
     TodayBuyGrid = FloatType(520, 'today_bought_from_grid', 10, suffix='kWh')
     TodaySoldGrid = FloatType(521, 'today_sold_to_grid', 10, suffix='kWh')
