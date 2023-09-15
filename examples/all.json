@@ -1,0 +1,1219 @@
+{
+  "logger": 2719999999,
+  "serial": "2299999999",
+  "data": [
+    {
+      "device_type": {
+        "addr": 0,
+        "value": "Hybrid3Phase",
+        "unit": ""
+      }
+    },
+    {
+      "modbus_address": {
+        "addr": 1,
+        "value": 1,
+        "unit": ""
+      }
+    },
+    {
+      "rated_power": {
+        "addr": 8,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "inverter_time": {
+        "addr": 62,
+        "value": "2023-09-15 18:07:04",
+        "unit": ""
+      }
+    },
+    {
+      "comm_address": {
+        "addr": 74,
+        "value": 1,
+        "unit": ""
+      }
+    },
+    {
+      "switch_on_off": {
+        "addr": 80,
+        "value": "Active",
+        "unit": ""
+      }
+    },
+    {
+      "control_mode": {
+        "addr": 98,
+        "value": 1,
+        "unit": ""
+      }
+    },
+    {
+      "batt_equalization_v": {
+        "addr": 99,
+        "value": 57.6,
+        "unit": "V"
+      }
+    },
+    {
+      "batt_absorbtion_v": {
+        "addr": 100,
+        "value": 57.6,
+        "unit": "V"
+      }
+    },
+    {
+      "batt_float_v": {
+        "addr": 101,
+        "value": 55.2,
+        "unit": "V"
+      }
+    },
+    {
+      "batt_capacity": {
+        "addr": 102,
+        "value": 800,
+        "unit": "Ah"
+      }
+    },
+    {
+      "batt_empty_v": {
+        "addr": 103,
+        "value": 45.0,
+        "unit": "V"
+      }
+    },
+    {
+      "zero_export_power": {
+        "addr": 104,
+        "value": 20,
+        "unit": "W"
+      }
+    },
+    {
+      "TEMPCO": {
+        "addr": 107,
+        "value": 5,
+        "unit": "mV/*C"
+      }
+    },
+    {
+      "max_charge_amps": {
+        "addr": 108,
+        "value": 120,
+        "unit": "A"
+      }
+    },
+    {
+      "max_discharge_amps": {
+        "addr": 109,
+        "value": 2,
+        "unit": "A"
+      }
+    },
+    {
+      "battery_control_mode": {
+        "addr": 111,
+        "value": 1,
+        "unit": ""
+      }
+    },
+    {
+      "battery_wake_up": {
+        "addr": 112,
+        "value": "Inactive",
+        "unit": ""
+      }
+    },
+    {
+      "battery_resistance": {
+        "addr": 113,
+        "value": 25,
+        "unit": "mOhm"
+      }
+    },
+    {
+      "battery_charging_eff": {
+        "addr": 114,
+        "value": 99.0,
+        "unit": "%"
+      }
+    },
+    {
+      "battery_shutdown_capacity": {
+        "addr": 115,
+        "value": 10,
+        "unit": "%"
+      }
+    },
+    {
+      "battery_recovery_capacity": {
+        "addr": 116,
+        "value": 50,
+        "unit": "%"
+      }
+    },
+    {
+      "battery_low_capacity": {
+        "addr": 117,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "battery_shutdown_voltage": {
+        "addr": 118,
+        "value": 46.0,
+        "unit": "V"
+      }
+    },
+    {
+      "battery_restart_voltage": {
+        "addr": 119,
+        "value": 52.0,
+        "unit": "V"
+      }
+    },
+    {
+      "battery_low_voltage": {
+        "addr": 120,
+        "value": 47.5,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_charge_start_voltage": {
+        "addr": 126,
+        "value": 0.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_charge_start_soc": {
+        "addr": 127,
+        "value": 10,
+        "unit": "%"
+      }
+    },
+    {
+      "grid_charge_current": {
+        "addr": 128,
+        "value": 200,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_max_output_pwr": {
+        "addr": 143,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "solar_sell": {
+        "addr": 145,
+        "value": "Inactive",
+        "unit": ""
+      }
+    },
+    {
+      "sell_time_of_use": {
+        "addr": 146,
+        "value": [
+          "TimeOfUse - ENABLED",
+          "TimeOfUse - MONDAY",
+          "TimeOfUse - TUESDAY",
+          "TimeOfUse - WEDNESDAY",
+          "TimeOfUse - THURSDAY",
+          "TimeOfUse - FRIDAY",
+          "TimeOfUse - SATURDAY",
+          "TimeOfUse - SUNDAY"
+        ],
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t1": {
+        "addr": 148,
+        "value": "00:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t2": {
+        "addr": 149,
+        "value": "05:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t3": {
+        "addr": 150,
+        "value": "09:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t4": {
+        "addr": 151,
+        "value": "19:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t5": {
+        "addr": 152,
+        "value": "20:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t6": {
+        "addr": 153,
+        "value": "22:00",
+        "unit": ""
+      }
+    },
+    {
+      "sell_point_t1_watts": {
+        "addr": 154,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t2_watts": {
+        "addr": 155,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t3_watts": {
+        "addr": 156,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t4_watts": {
+        "addr": 157,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t5_watts": {
+        "addr": 158,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t6_watts": {
+        "addr": 159,
+        "value": 100,
+        "unit": "W"
+      }
+    },
+    {
+      "sell_point_t1_volts": {
+        "addr": 160,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t2_volts": {
+        "addr": 161,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t3_volts": {
+        "addr": 162,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t4_volts": {
+        "addr": 163,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t5_volts": {
+        "addr": 164,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t6_volts": {
+        "addr": 165,
+        "value": 49.0,
+        "unit": "V"
+      }
+    },
+    {
+      "sell_point_t1_soc": {
+        "addr": 166,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "sell_point_t2_soc": {
+        "addr": 167,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "sell_point_t3_soc": {
+        "addr": 168,
+        "value": 100,
+        "unit": "%"
+      }
+    },
+    {
+      "sell_point_t4_soc": {
+        "addr": 169,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "sell_point_t5_soc": {
+        "addr": 170,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "sell_point_t6_soc": {
+        "addr": 171,
+        "value": 28,
+        "unit": "%"
+      }
+    },
+    {
+      "charge_point_t1": {
+        "addr": 172,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "charge_point_t2": {
+        "addr": 173,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "charge_point_t3": {
+        "addr": 174,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "charge_point_t4": {
+        "addr": 175,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "charge_point_t5": {
+        "addr": 176,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "charge_point_t6": {
+        "addr": 177,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "export_to_grid_cutoff": {
+        "addr": 178,
+        "value": {
+          "enabled": 0,
+          "generator_peak_shaving": 0,
+          "grid_peak_shaving": 2,
+          "on_grid_always_on": 0,
+          "external_relay": 0,
+          "report_loss_of_lithium": 0
+        },
+        "unit": ""
+      }
+    },
+    {
+      "grid_freq_selection": {
+        "addr": 183,
+        "value": 50,
+        "unit": "Hz"
+      }
+    },
+    {
+      "grid_high_voltage": {
+        "addr": 185,
+        "value": 265.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_low_voltage": {
+        "addr": 186,
+        "value": 185.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_high_frequency": {
+        "addr": 187,
+        "value": 51.5,
+        "unit": "Hz"
+      }
+    },
+    {
+      "grid_low_frequency": {
+        "addr": 188,
+        "value": 48.0,
+        "unit": "Hz"
+      }
+    },
+    {
+      "generator_to_grid": {
+        "addr": 189,
+        "value": "Inactive",
+        "unit": ""
+      }
+    },
+    {
+      "gen_peak_shaving_pwr": {
+        "addr": 190,
+        "value": 8000,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_peak_shaving_pwr": {
+        "addr": 191,
+        "value": 8000,
+        "unit": "W"
+      }
+    },
+    {
+      "smart_load_open_delay": {
+        "addr": 192,
+        "value": 100,
+        "unit": "Minutes"
+      }
+    },
+    {
+      "output_power_factor": {
+        "addr": 193,
+        "value": 100.0,
+        "unit": "%"
+      }
+    },
+    {
+      "bms_charged_voltage": {
+        "addr": 210,
+        "value": 56.0,
+        "unit": "V"
+      }
+    },
+    {
+      "bms_discharged_voltage": {
+        "addr": 211,
+        "value": 0.0,
+        "unit": "V"
+      }
+    },
+    {
+      "bms_charge_current_limit": {
+        "addr": 212,
+        "value": 400,
+        "unit": "A"
+      }
+    },
+    {
+      "bms_discharge_current_limit": {
+        "addr": 213,
+        "value": 400,
+        "unit": "A"
+      }
+    },
+    {
+      "bms_battery_SOC": {
+        "addr": 214,
+        "value": 40,
+        "unit": "%"
+      }
+    },
+    {
+      "bms_battery_voltage": {
+        "addr": 215,
+        "value": 52.88,
+        "unit": "V"
+      }
+    },
+    {
+      "bms_battery_current": {
+        "addr": 216,
+        "value": 0,
+        "unit": "A"
+      }
+    },
+    {
+      "bms_battery_temp": {
+        "addr": 217,
+        "value": 32.0,
+        "unit": "\u00b0C"
+      }
+    },
+    {
+      "bms_max_charge_current": {
+        "addr": 218,
+        "value": 420,
+        "unit": "A"
+      }
+    },
+    {
+      "bms_max_discharge_current": {
+        "addr": 219,
+        "value": 420,
+        "unit": "A"
+      }
+    },
+    {
+      "bms_battery_alarm": {
+        "addr": 220,
+        "value": "Inactive",
+        "unit": ""
+      }
+    },
+    {
+      "bms_battery_fault_location": {
+        "addr": 221,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "bms_battery_symbol_2": {
+        "addr": 222,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "bms_type": {
+        "addr": 223,
+        "value": 0,
+        "unit": ""
+      }
+    },
+    {
+      "bms_battery_soh": {
+        "addr": 224,
+        "value": -1,
+        "unit": ""
+      }
+    },
+    {
+      "max_solar_sell_pwr": {
+        "addr": 340,
+        "value": 13500,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_state": {
+        "addr": 500,
+        "value": 2,
+        "unit": ""
+      }
+    },
+    {
+      "active_power_today": {
+        "addr": 501,
+        "value": 0.0,
+        "unit": "kWh"
+      }
+    },
+    {
+      "reactive_power_today": {
+        "addr": 502,
+        "value": 0.0,
+        "unit": "kVarh"
+      }
+    },
+    {
+      "grid_connection_today": {
+        "addr": 503,
+        "value": 0.0,
+        "unit": "minutes"
+      }
+    },
+    {
+      "battery_charge_today": {
+        "addr": 514,
+        "value": 5.9,
+        "unit": "kWh"
+      }
+    },
+    {
+      "battery_discharge_today": {
+        "addr": 515,
+        "value": 12.8,
+        "unit": "kWh"
+      }
+    },
+    {
+      "battery_charge_total": {
+        "addr": 516,
+        "value": 4559.3,
+        "unit": "kWh"
+      }
+    },
+    {
+      "battery_discharge_total": {
+        "addr": 518,
+        "value": 4379.8,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_bought_from_grid": {
+        "addr": 520,
+        "value": 7.6,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_sold_to_grid": {
+        "addr": 521,
+        "value": 11.8,
+        "unit": "kWh"
+      }
+    },
+    {
+      "total_bought_from_grid": {
+        "addr": 522,
+        "value": 4637.6,
+        "unit": "kWh"
+      }
+    },
+    {
+      "total_sold_to_grid": {
+        "addr": 524,
+        "value": 4711.4,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_to_load": {
+        "addr": 526,
+        "value": 0.8,
+        "unit": "kWh"
+      }
+    },
+    {
+      "total_to_load": {
+        "addr": 527,
+        "value": 231.9,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_from_pv": {
+        "addr": 529,
+        "value": 0.0,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_from_pv_s1": {
+        "addr": 530,
+        "value": 0.0,
+        "unit": "kWh"
+      }
+    },
+    {
+      "today_from_pv_s2": {
+        "addr": 531,
+        "value": 0.0,
+        "unit": "kWh"
+      }
+    },
+    {
+      "total_from_pv": {
+        "addr": 534,
+        "value": 1132.9,
+        "unit": "kWh"
+      }
+    },
+    {
+      "battery_temperature": {
+        "addr": 586,
+        "value": 13.2,
+        "unit": "\u00b0C"
+      }
+    },
+    {
+      "battery_voltage": {
+        "addr": 587,
+        "value": 52.94,
+        "unit": "V"
+      }
+    },
+    {
+      "battery_soc": {
+        "addr": 588,
+        "value": 40.0,
+        "unit": "%"
+      }
+    },
+    {
+      "battery_out_power": {
+        "addr": 590,
+        "value": -3,
+        "unit": "W"
+      }
+    },
+    {
+      "battery_out_current": {
+        "addr": 591,
+        "value": -0.06,
+        "unit": "A"
+      }
+    },
+    {
+      "battery_corrected_ah": {
+        "addr": 592,
+        "value": 202,
+        "unit": "Ah"
+      }
+    },
+    {
+      "grid_phase_A_volt": {
+        "addr": 598,
+        "value": 239.7,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_B_volt": {
+        "addr": 599,
+        "value": 243.6,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_C_volt": {
+        "addr": 600,
+        "value": 241.8,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_AB_volt": {
+        "addr": 601,
+        "value": 0.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_BC_volt": {
+        "addr": 602,
+        "value": 0.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_CA_volt": {
+        "addr": 603,
+        "value": 0.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_A_in_power": {
+        "addr": 604,
+        "value": 22,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_B_in_power": {
+        "addr": 605,
+        "value": 37,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_C_in_power": {
+        "addr": 606,
+        "value": 61,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_active_side_side_in_power": {
+        "addr": 607,
+        "value": 120,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_active_side_side_apparent_power": {
+        "addr": 608,
+        "value": 0,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_in_frequency": {
+        "addr": 609,
+        "value": 50.0,
+        "unit": "Hz"
+      }
+    },
+    {
+      "grid_phase_A_in_current": {
+        "addr": 610,
+        "value": 0.52,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_B_in_current": {
+        "addr": 611,
+        "value": 0.4,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_C_in_current": {
+        "addr": 612,
+        "value": 0.47,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_A_out_of_grid_current": {
+        "addr": 613,
+        "value": 0.42,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_B_out_of_grid_current": {
+        "addr": 614,
+        "value": 0.66,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_C_out_of_grid_current": {
+        "addr": 615,
+        "value": 0.69,
+        "unit": "A"
+      }
+    },
+    {
+      "grid_phase_A_out_of_grid_power": {
+        "addr": 616,
+        "value": 14,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_B_out_of_grid_power": {
+        "addr": 617,
+        "value": 42,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_C_out_of_grid_power": {
+        "addr": 618,
+        "value": 69,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_total_out_of_grid_power": {
+        "addr": 619,
+        "value": 125,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_total_out_of_grid_apparent_power": {
+        "addr": 620,
+        "value": 0,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_A__power": {
+        "addr": 622,
+        "value": 14,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_B__power": {
+        "addr": 623,
+        "value": 34,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_C__power": {
+        "addr": 624,
+        "value": 60,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_total_power": {
+        "addr": 625,
+        "value": 108,
+        "unit": "W"
+      }
+    },
+    {
+      "grid_phase_A_volt_out": {
+        "addr": 627,
+        "value": 240.3,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_B_volt_out": {
+        "addr": 628,
+        "value": 243.0,
+        "unit": "V"
+      }
+    },
+    {
+      "grid_phase_C_volt_out": {
+        "addr": 629,
+        "value": 243.0,
+        "unit": "V"
+      }
+    },
+    {
+      "inverter_phase_A_out_current": {
+        "addr": 630,
+        "value": -0.1,
+        "unit": "A"
+      }
+    },
+    {
+      "inverter_phase_B_out_current": {
+        "addr": 631,
+        "value": -0.2,
+        "unit": "A"
+      }
+    },
+    {
+      "inverter_phase_C_out_current": {
+        "addr": 632,
+        "value": -0.3,
+        "unit": "A"
+      }
+    },
+    {
+      "inverter_phase_A_out_power": {
+        "addr": 633,
+        "value": 0,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_phase_B_out_power": {
+        "addr": 634,
+        "value": -22,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_phase_C_out_power": {
+        "addr": 635,
+        "value": -49,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_total_out_power": {
+        "addr": 636,
+        "value": -71,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_total_apparent_out_power": {
+        "addr": 637,
+        "value": -71,
+        "unit": "W"
+      }
+    },
+    {
+      "inverter_out_frequency": {
+        "addr": 638,
+        "value": 50.0,
+        "unit": "Hz"
+      }
+    },
+    {
+      "ups_phase_A_power": {
+        "addr": 640,
+        "value": 14,
+        "unit": "W"
+      }
+    },
+    {
+      "ups_phase_B_power": {
+        "addr": 641,
+        "value": 12,
+        "unit": "W"
+      }
+    },
+    {
+      "ups_phase_C_power": {
+        "addr": 642,
+        "value": 11,
+        "unit": "W"
+      }
+    },
+    {
+      "ups_total_power": {
+        "addr": 643,
+        "value": 37,
+        "unit": "W"
+      }
+    },
+    {
+      "load_phase_A_volt": {
+        "addr": 644,
+        "value": 241.4,
+        "unit": "V"
+      }
+    },
+    {
+      "load_phase_B_volt": {
+        "addr": 645,
+        "value": 243.5,
+        "unit": "V"
+      }
+    },
+    {
+      "load_phase_C_volt": {
+        "addr": 646,
+        "value": 242.8,
+        "unit": "V"
+      }
+    },
+    {
+      "load_phase_A_current": {
+        "addr": 647,
+        "value": 0.0,
+        "unit": "A"
+      }
+    },
+    {
+      "load_phase_B_current": {
+        "addr": 648,
+        "value": 0.0,
+        "unit": "A"
+      }
+    },
+    {
+      "load_phase_C_current": {
+        "addr": 649,
+        "value": 0.0,
+        "unit": "A"
+      }
+    },
+    {
+      "load_phase_A_power": {
+        "addr": 650,
+        "value": 14,
+        "unit": "W"
+      }
+    },
+    {
+      "load_phase_B_power": {
+        "addr": 651,
+        "value": 12,
+        "unit": "W"
+      }
+    },
+    {
+      "load_phase_C_power": {
+        "addr": 652,
+        "value": 11,
+        "unit": "W"
+      }
+    },
+    {
+      "load_total_power": {
+        "addr": 653,
+        "value": 37,
+        "unit": "W"
+      }
+    },
+    {
+      "pv1_in_power": {
+        "addr": 672,
+        "value": 0,
+        "unit": "W"
+      }
+    },
+    {
+      "pv2_in_power": {
+        "addr": 673,
+        "value": 0,
+        "unit": "W"
+      }
+    },
+    {
+      "pv1_volt": {
+        "addr": 676,
+        "value": 14.9,
+        "unit": "V"
+      }
+    },
+    {
+      "pv1_current": {
+        "addr": 677,
+        "value": 0.0,
+        "unit": "A"
+      }
+    },
+    {
+      "pv2_volt": {
+        "addr": 678,
+        "value": 13.6,
+        "unit": "V"
+      }
+    }
+  ]
+}
