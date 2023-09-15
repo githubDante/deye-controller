@@ -3,18 +3,24 @@ from .modbus.protocol import HoldingRegisters, BatteryOnlyRegisters, TotalPowerO
 from .logger_scan import solar_scan
 from argparse import ArgumentParser
 from .utils import group_registers, map_response
+import json
 
 
-def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=False, combo=False):
+def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=False, combo=False,
+                  as_json=False):
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10,
                        error_correction=True)
     iterator = []
+    js = {'logger': logger_serial,
+          'serial': 0,
+          'data': []
+          }
     if batt_only:
-        iterator = BatteryOnlyRegisters
+        iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
     elif power_only:
-        iterator = TotalPowerOnly
+        iterator = [HoldingRegisters.SerialNumber] + TotalPowerOnly
     elif combo:
-        iterator = BatteryOnlyRegisters
+        iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
         for reg in TotalPowerOnly:
             if reg not in iterator:
                 iterator.append(reg)
@@ -31,9 +37,17 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
                 suffix = reg.suffix
             else:
                 suffix = ''
+            if as_json:
+                if reg == HoldingRegisters.SerialNumber:
+                    js['serial'] = reg.format()
+                else:
+                    js['data'].append({reg.description: {'addr': reg.address, 'value': reg.format(), 'unit': suffix}})
+            else:
+                string = '[{:>35s}]: {} {}'.format(reg.description.title(), reg.format(), suffix)
+                print(string, flush=True)
 
-            string = '[{:>35s}]: {} {}'.format(reg.description.title(), reg.format(), suffix)
-            print(string, flush=True)
+    if as_json:
+        print(json.dumps(js, indent=2, default=str))
 
     try:
         inv.disconnect()
@@ -74,10 +88,12 @@ def read_from_inverter():
     parser.add_argument('--battery', help='Read only battery related parameters', action='store_true')
     parser.add_argument('--power', help='Read only total power related parameters', action='store_true')
     parser.add_argument('--combo', help='Read only power/battery related parameters', action='store_true')
+    parser.add_argument('--json', help='Show the data as JSON', action='store_true')
     parser.add_argument('address', help='Datalogger IP address')
     parser.add_argument('serial', help='Datalogger serial', type=int)
     opts = parser.parse_args()
-    read_inverter(opts.address, opts.serial, batt_only=opts.battery, power_only=opts.power, combo=opts.combo)
+    read_inverter(opts.address, opts.serial, batt_only=opts.battery, power_only=opts.power, combo=opts.combo,
+                  as_json=opts.json)
 
 
 def test_register():
