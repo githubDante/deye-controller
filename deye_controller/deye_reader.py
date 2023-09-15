@@ -7,7 +7,7 @@ import json
 
 
 def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=False, combo=False,
-                  as_json=False):
+                  as_json=False, to_file=None):
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10,
                        error_correction=True)
     iterator = []
@@ -47,7 +47,16 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
                 print(string, flush=True)
 
     if as_json:
-        print(json.dumps(js, indent=2, default=str))
+        if to_file:
+            try:
+                with open(to_file, 'w') as f:
+                    f.write(json.dumps(js, indent=2, default=str))
+                print(f'Data saved to: {to_file}')
+            except Exception as e:
+                print(f'Error occurred during the write to <{to_file}>. Error: {e}')
+                print(json.dumps(js, indent=2, default=str))
+        else:
+            print(json.dumps(js, indent=2, default=str))
 
     try:
         inv.disconnect()
@@ -89,11 +98,12 @@ def read_from_inverter():
     parser.add_argument('--power', help='Read only total power related parameters', action='store_true')
     parser.add_argument('--combo', help='Read only power/battery related parameters', action='store_true')
     parser.add_argument('--json', help='Show the data as JSON', action='store_true')
+    parser.add_argument('--out', help='Write the JSON output to this file', required=False, type=str, default=False)
     parser.add_argument('address', help='Datalogger IP address')
     parser.add_argument('serial', help='Datalogger serial', type=int)
     opts = parser.parse_args()
     read_inverter(opts.address, opts.serial, batt_only=opts.battery, power_only=opts.power, combo=opts.combo,
-                  as_json=opts.json)
+                  as_json=opts.json, to_file=opts.out)
 
 
 def test_register():
