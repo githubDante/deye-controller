@@ -1214,6 +1214,13 @@
         "value": 13.6,
         "unit": "V"
       }
+    },
+    {
+      "pv2_current": {
+        "addr": 679,
+        "value": 0.0,
+        "unit": "A"
+      }
     }
   ]
 }
