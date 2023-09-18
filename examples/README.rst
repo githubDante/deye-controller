@@ -34,12 +34,13 @@ Additional examples
     ...
     [                Bms_Charged_Voltage]: 56.0 V
     [             Bms_Discharged_Voltage]: 0.0 V
-    [           Bms_Charge_Current_Limit]: 300 A
+    [           Bms_Charge_Current_Limit]: 400 A
     [        Bms_Discharge_Current_Limit]: 400 A
-    [                    Bms_Battery_Soc]: 99 %
-    [                Bms_Battery_Voltage]: 55.27 V
-    [                Bms_Battery_Current]: 0 A
-    [               Battery_Charge_Today]: 1.5 kWh
-    [            Battery_Discharge_Today]: 0.6 kWh
+    [                    Bms_Battery_Soc]: 82 %
+    [                Bms_Battery_Voltage]: 52.91 V
+    [                Bms_Battery_Current]: -87 A
+    [               Battery_Charge_Today]: 29.9 kWh
+    [            Battery_Discharge_Today]: 18.2 kWh
+    [               Battery_Charge_Total]: 4555.3 kWh
     >>>
 
