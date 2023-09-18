@@ -51,7 +51,7 @@ def group_registers(regs: List[Register]) -> List[RegistersGroup]:
     s_regs = sorted(regs, key=lambda x: x.address)
     top = RegistersGroup(s_regs[0])
     groups = [top]
-    for i in range(1, len(s_regs) - 1):
+    for i in range(1, len(s_regs)):
         if s_regs[i].address == top.next_address:
             top.add(s_regs[i])
         else:
