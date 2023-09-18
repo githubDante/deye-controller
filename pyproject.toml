@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "deye-controller"
-version = "0.1.3"
+version = "0.1.4"
 description = "MODBUS Controller for DEYE inverters"
 authors = ["githubDante <github@dante.tk>"]
 readme = "README.rst"
