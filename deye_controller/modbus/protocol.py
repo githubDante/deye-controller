@@ -304,10 +304,19 @@ class HoldingRegisters:
     BattRestartVoltage = FloatType(119, 'battery_restart_voltage', 100, suffix='V')
     BattLowVoltage = FloatType(120, 'battery_low_voltage', 100, suffix='V')
 
+    """ Generator settings """
+    GeneratorWorkingTime = FloatType(121, 'gen_max_working_time', 10, suffix='h')
+    GeneratorCoolingTime = FloatType(122, 'gen_cooling_time', 10, suffix='h')
+    GeneratorStartVoltage = FloatType(123, 'gen_charge_start_voltage', 100, suffix='V')
+    GeneratorStartCapacity = FloatType(124, 'gen_charge_start_soc', 100, suffix='%')
+    GeneratorChargeCurrent = IntType(125, 'gen_charge_current', suffix='A')
+
     """ Generator settings up to register 125 """
     GridChargeStartVolts = FloatType(126, 'grid_charge_start_voltage', 100, suffix='V')
     GridChargeStartCapacity = IntType(127, 'grid_charge_start_soc', suffix='%')
     GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
+
+    """ Smart Load control - need more info  """
 
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SolarSell = BoolType(145, 'solar_sell')
@@ -480,6 +489,15 @@ class HoldingRegisters:
     LoadPhaseCPower = IntType(652, 'load_phase_C_power', suffix='W', signed=True)
     LoadTotalPower = IntType(653, 'load_total_power', suffix='W', signed=True)
     """ GENERATOR skipped """
+
+    GeneratorPhaseAVoltage = FloatType(661, 'gen_phase_A_volt', 10, suffix='V')
+    GeneratorPhaseBVoltage = FloatType(662, 'gen_phase_B_volt', 10, suffix='V')
+    GeneratorPhaseCVoltage = FloatType(663, 'gen_phase_C_volt', 10, suffix='V')
+    GeneratorPhaseAPower = IntType(664, 'gen_phase_A_power', suffix='W', signed=True)
+    GeneratorPhaseBPower = IntType(665, 'gen_phase_B_power', suffix='W', signed=True)
+    GeneratorPhaseCPower = IntType(666, 'gen_phase_C_power', suffix='W', signed=True)
+    GeneratorTotalPower = IntType(667, 'gen_total_power', suffix='W', signed=True)
+
     """ PV Inputs """
     PV1InPower = IntType(672, 'pv1_in_power', suffix='W')
     PV2InPower = IntType(673, 'pv2_in_power', suffix='W')
@@ -700,7 +718,13 @@ class WritableRegisters:
 
     BatteryVoltsShutDown = FloatWritable(address=118, low_limit=38, high_limit=63, scale=100)
     BatteryVoltsRestart = FloatWritable(address=119, low_limit=38, high_limit=63, scale=100)
-    BatteryVoltsLow = FloatWritable(address=119, low_limit=38, high_limit=63, scale=100)
+    BatteryVoltsLow = FloatWritable(address=120, low_limit=38, high_limit=63, scale=100)
+    """ Generator Settings """
+    GeneratorMaxWorkTime = FloatWritable(address=121, low_limit=0, high_limit=23, scale=10)
+    GeneratorCoolingTime = FloatWritable(address=122, low_limit=0, high_limit=23, scale=10)
+    GeneratorStartVoltage = FloatWritable(address=123, low_limit=0, high_limit=63, scale=100)
+    GeneratorStartCapacity = FloatWritable(address=124, low_limit=0, high_limit=63, scale=100)
+    GeneratorChargeCurrent = IntWritable(address=125, low_limit=0, high_limit=185)
 
     GridChargeStartVoltage = FloatWritable(address=126, low_limit=38, high_limit=61, scale=100)
     GridChargeStartCapacity = IntWritable(address=127, low_limit=0, high_limit=100)
