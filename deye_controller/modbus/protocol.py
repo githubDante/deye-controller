@@ -32,6 +32,7 @@ class Register(object):
         self.len = length
         self.description = description
         self.value = None
+        self.suffix = ''
 
     @abstractmethod
     def format(self):
@@ -271,6 +272,70 @@ class MicroinverterExportCutoff(Register):
                 }
 
 
+class TempWithOffset(FloatType):
+
+    def __init__(self, address, name, scale=10, offset=1000):
+        super().__init__(address, name, scale, suffix='°C')
+        self.offset = offset
+
+    def format(self) -> float:
+        return round(super().format() - self.offset / self.scale, 2)
+
+
+class ACRelayStatus(Register):
+    
+    def __init__(self):
+        super().__init__(552, 1, 'ac_relays')
+
+    def format(self):
+        as_bits = [int(x) for x in f'{self.value:016b}'[::-1]]
+        inverter_relay = BitOnOff(as_bits[0])
+        grid_relay = BitOnOff(as_bits[2])
+        gen_relay = BitOnOff(as_bits[3])
+        grid_power_relay = BitOnOff(as_bits[4])  # No idea what is this - grid give power to relay
+        dry_contact_1 = BitOnOff(as_bits[7])
+        dry_contact_2 = BitOnOff(as_bits[8])
+
+        return {
+            'Inverter':  inverter_relay,
+            'Grid': grid_relay,
+            'Generator': gen_relay,
+            'GridPower': grid_power_relay,
+            'DryContact-1': dry_contact_1,
+            'DryContact-2': dry_contact_2,
+        }
+
+
+class WarningOne(Register):
+    def __init__(self):
+        super().__init__(553, 1, 'warn_1')
+
+    def format(self):
+        as_bits = [int(x) for x in f'{self.value:016b}'[::-1]]
+        fan_warn = BitOnOff(as_bits[1])
+        wrong_phase = BitOnOff(as_bits[2])
+
+        return {
+            'Fan-Warning': fan_warn,
+            'Wrong-Phase': wrong_phase
+        }
+
+
+class WarningTwo(Register):
+    def __init__(self):
+        super().__init__(554, 1, 'warn_2')
+
+    def format(self):
+        as_bits = [int(x) for x in f'{self.value:016b}'[::-1]]
+        bms_comm = BitOnOff(as_bits[14])
+        parallel_com = BitOnOff(as_bits[15])
+
+        return {
+            'BMS-COMM-Lost': bms_comm,
+            'Parallel-COMM-Lost': parallel_com
+        }
+
+
 class HoldingRegisters:
 
     DeviceType = DeviceType()
@@ -416,7 +481,19 @@ class HoldingRegisters:
     TodayFromPVString1 = FloatType(530, 'today_from_pv_s1', 10, suffix='kWh')
     TodayFromPVString2 = FloatType(531, 'today_from_pv_s2', 10, suffix='kWh')
     TotalFromPV = LongUnsignedType(534, 'total_from_pv', 10, suffix='kWh')
+    TodayFromGenerator = FloatType(536, 'today_from_generator', 10, suffix='kWh')
+    TotalFromGenerator = LongUnsignedType(537, 'total_from_generator', 10, suffix='kWh')
+    TodayGeneratorWorkTime = FloatType(539, 'generator_worktime_today', 10, suffix='hours')
 
+    DCTransformerTemp = TempWithOffset(540, 'dc_transformer_temp')
+    HeatsinkTemp = TempWithOffset(541, 'heatsink_temp')
+
+    LoadAnnualConsumption = LongUnsignedType(545, 'load_annual_consumption', 10, suffix='kWh')
+
+    ACRelays = ACRelayStatus()
+    """ WARNINGS """
+    Warning_1 = WarningOne()
+    Warning_2 = WarningTwo()
     BatteryTemp = FloatType(586, 'battery_temperature', 100, suffix='°C')
     BatteryVoltage = FloatType(587, 'battery_voltage', 100, suffix='V')
     BatterySOC = FloatType(588, 'battery_soc', 1, suffix='%')

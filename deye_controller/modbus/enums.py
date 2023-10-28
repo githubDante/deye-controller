@@ -124,3 +124,31 @@ class TwoBitState(int, enum.Enum):
 
     def __format__(self, format_spec):
         return self.name
+
+
+class PowerOnOffState(int, enum.Enum):
+    PoweredOff = 0
+    PoweredOn = 1
+
+    @classmethod
+    def _missing_(cls, value: object):
+        return PowerOnOffState.PoweredOff
+
+    def __format__(self, format_spec):
+        return self.name
+
+
+class BitOnOff(int, enum.Enum):
+    """
+    AC Relays (552)
+    """
+
+    Off = 0
+    On = 1
+
+    @classmethod
+    def _missing_(cls, value: object):
+        return BitOnOff.Off
+
+    def __format__(self, format_spec):
+        return self.name
