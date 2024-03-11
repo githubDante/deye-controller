@@ -336,6 +336,15 @@ class WarningTwo(Register):
         }
 
 
+class GenPortUse(Register):
+
+    def __init__(self):
+        super().__init__(133, 1, 'gen_port_use')
+
+    def format(self):
+        return str(GenPortMode(self.value))
+
+
 class HoldingRegisters:
 
     DeviceType = DeviceType()
@@ -382,6 +391,8 @@ class HoldingRegisters:
     GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
 
     """ Smart Load control - need more info  """
+    GeneratorPortSetup = GenPortUse()
+    """ Smart Load """
 
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SolarSell = BoolType(145, 'solar_sell')

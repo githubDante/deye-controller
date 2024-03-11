@@ -152,3 +152,23 @@ class BitOnOff(int, enum.Enum):
 
     def __format__(self, format_spec):
         return self.name
+
+
+class GenPortMode(int, enum.Enum):
+    """
+    Register 133
+    """
+    GenInput = 0
+    SmartLoad = 1
+    MicroInverter = 2
+
+    @classmethod
+    def _missing_(cls, value: object):
+        return GenPortMode.GenInput
+
+    def __format__(self, format_spec):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
