@@ -768,6 +768,41 @@ class BoolWritable(WritableRegister):
         self.value = x
 
 
+class GenPortUseWritable(WritableRegister):
+    """
+    Generator port settings.
+
+    Example:
+        >>> from deye_controller.modbus.protocol import GenPortUseWritable
+        >>> from deye_controller.modbus.enums import GenPortMode
+        >>> v = GenPortUseWritable()
+        >>> v.set(GenPortMode.MicroInverter)
+        or directly as int
+        >>> v.set(2)
+
+        when used from the WritableRegisters class
+
+        >>> from deye_controller.modbus.protocol import GenPortMode
+        >>> from deye_controller.modbus.protocol import WritableRegisters
+        >>> wr = WritableRegisters()
+        >>> wr.GenPortUse.set(GenPortMode.MicroInverter)
+    """
+
+    def __init__(self):
+        super().__init__(133)
+
+    def set(self, x: Union[int, GenPortMode]):
+        if not isinstance(x, GenPortMode):
+            if x > GenPortMode.MicroInverter \
+                    or x < GenPortMode.GenInput:
+                raise ValueError('Invalid value. Must be between 0 and 2')
+            self.modbus_value = x
+            self.value = GenPortMode(x)
+        else:
+            self.modbus_value = x.value
+            self.value = x
+
+
 class WritableRegisters:
 
     DeviceTime = DeviceTimeWriteable()
@@ -820,6 +855,7 @@ class WritableRegisters:
     GridChargeBattCurrent = IntWritable(address=128, low_limit=0, high_limit=185)
 
     """ Smart load options """
+    GenPortUse = GenPortUseWritable()
     SmartLoadOffVoltage = FloatWritable(address=134, low_limit=38, high_limit=63, scale=100)
     SmartLoadOffCapacity = IntWritable(address=135, low_limit=0, high_limit=100)
     SmartLoadOnVoltage = FloatWritable(address=136, low_limit=38, high_limit=63, scale=100)
