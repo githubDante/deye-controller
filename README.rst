@@ -23,7 +23,7 @@ INSTALL
 
 TODO List
 =============
-
+* Support single phase inverters, eventually with auto detection.
 
 Examples
 ==============
