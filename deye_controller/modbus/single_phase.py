@@ -1,8 +1,9 @@
 """
 MODBUS Registers for DEYE single phase inverters
 """
+from typing import List
 from .protocol import (LongType, LongUnsignedType, BoolType, DeviceTime, DeviceType,
-                       DeviceSerialNumber, IntType, FloatType, RunState)
+                       DeviceSerialNumber, IntType, FloatType, RunState, Register)
 
 
 class DeviceTimeSingle(DeviceTime):
@@ -85,7 +86,12 @@ class HoldingRegistersSingleMicro(HoldingRegistersSingleCommon):
     TotalPowerComponent3 = LongUnsignedType(74, 'total_power_component_3', scale=10, suffix='kWh')
     TotalPowerComponent4 = LongUnsignedType(76, 'total_power_component_4', scale=10, suffix='kWh')
 
-    """ !!! This one probably should be LongUnsigned !!! """
+    @staticmethod
+    def as_list() -> List[Register]:
+        """ Method for easy iteration over the registers defined here  """
+        return [getattr(HoldingRegistersSingleMicro, x) for x in
+                HoldingRegistersSingleMicro.__dict__ if not x.startswith('_')
+                and not x.startswith('as_')]
 
 
 class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon):
@@ -103,6 +109,13 @@ class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon):
     DailyGridBought = FloatType(76, 'daily_bought_from_grid', 10, suffix='kWh')
     DailyGridSold = FloatType(77, 'daily_sold_to_grid', 10, suffix='kWh')
 
+    @staticmethod
+    def as_list() -> List[Register]:
+        """ Method for easy iteration over the registers defined here  """
+        return [getattr(HoldingRegistersSingleHybrid, x) for x in
+                HoldingRegistersSingleHybrid.__dict__ if not x.startswith('_')
+                and not x.startswith('as_')]
+
 
 class HoldingRegistersSingleString(HoldingRegistersSingleCommon):
     """ String inverter specific """
@@ -119,3 +132,10 @@ class HoldingRegistersSingleString(HoldingRegistersSingleCommon):
     GridCurrentA = FloatType(76, 'grid_current_a', scale=10, suffix='A')
     GridCurrentB = FloatType(77, 'grid_current_b', scale=10, suffix='A')
     GridCurrentC = FloatType(78, 'grid_current_b', scale=10, suffix='A')
+
+    @staticmethod
+    def as_list() -> List[Register]:
+        """ Method for easy iteration over the registers defined here  """
+        return [getattr(HoldingRegistersSingleString, x) for x in
+                HoldingRegistersSingleString.__dict__ if not x.startswith('_')
+                and not x.startswith('as_')]
