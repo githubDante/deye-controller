@@ -1,5 +1,7 @@
 from pysolarmanv5 import PySolarmanV5, V5FrameError
-from .modbus.protocol import HoldingRegisters, BatteryOnlyRegisters, TotalPowerOnly
+from .modbus import (HoldingRegisters, BatteryOnlyRegisters, TotalPowerOnly, InverterType,
+                     HoldingRegistersSingleCommon, HoldingRegistersSingleString, HoldingRegistersSingleHybrid,
+                     HoldingRegistersSingleMicro)
 from .logger_scan import solar_scan
 from argparse import ArgumentParser
 from .utils import group_registers, map_response
@@ -10,23 +12,40 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
                   as_json=False, to_file=None):
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10,
                        error_correction=True)
+
+    type_detection = HoldingRegisters.DeviceType
+    type_detection.value = inv.read_holding_registers(type_detection.address, type_detection.len)[0]
+    inv_type = InverterType(type_detection.value)
+
+    print(f'Detected inverter: {inv_type.name}')
+
     iterator = []
     js = {'logger': logger_serial,
           'serial': 0,
           'data': []
           }
-    if batt_only:
-        iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
-    elif power_only:
-        iterator = [HoldingRegisters.SerialNumber] + TotalPowerOnly
-    elif combo:
-        iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
-        for reg in TotalPowerOnly:
-            if reg not in iterator:
-                iterator.append(reg)
 
-    else:
-        iterator = HoldingRegisters.as_list()
+    if inv_type == InverterType.Hybrid3Phase:
+        if batt_only:
+            iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
+        elif power_only:
+            iterator = [HoldingRegisters.SerialNumber] + TotalPowerOnly
+        elif combo:
+            iterator = [HoldingRegisters.SerialNumber] + BatteryOnlyRegisters
+            for reg in TotalPowerOnly:
+                if reg not in iterator:
+                    iterator.append(reg)
+
+        else:
+            iterator = HoldingRegisters.as_list()
+
+    elif inv_type == InverterType.Hybrid:
+        iterator = HoldingRegistersSingleHybrid.as_list()
+    elif inv_type == InverterType.Microinverter:
+        iterator = HoldingRegistersSingleMicro.as_list()
+    elif inv_type == InverterType.Inverter:
+        iterator = HoldingRegistersSingleString.as_list()
+
     reg_groups = group_registers(iterator)
     for group in reg_groups:
         res = inv.read_holding_registers(group.start_address, group.len)
@@ -38,7 +57,7 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
             else:
                 suffix = ''
             if as_json:
-                if reg == HoldingRegisters.SerialNumber:
+                if reg in [HoldingRegisters.SerialNumber, HoldingRegistersSingleCommon.SerialNumber]:
                     js['serial'] = reg.format()
                 else:
                     js['data'].append({reg.description: {'addr': reg.address, 'value': reg.format(), 'unit': suffix}})
