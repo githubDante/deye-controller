@@ -11,19 +11,6 @@ import datetime
 from .enums import *
 
 
-class InverterType(int, enum.Enum):
-
-    Inverter = 2
-    Hybrid = 3
-    Microinverter = 4
-    Hybrid3Phase = 5
-    Unknown = 0
-
-    @classmethod
-    def _missing_(cls, value):
-        return InverterType.Unknown
-
-
 class Register(object):
 
     """ Base register of 2 bytes """
