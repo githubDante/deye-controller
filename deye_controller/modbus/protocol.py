@@ -98,6 +98,26 @@ class LongUnsignedType(Register):
             return round(calculated / self.scale, 2)
 
 
+class LongUnsignedHoleType(Register):
+    """
+    For single phase inverters where the data is not in sequential registers
+    """
+
+    def __init__(self, address, name, scale, suffix=''):
+        super(LongUnsignedHoleType, self).__init__(address, 3, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_unsigned_bytes(self.value[::-2])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
+
+
 class DeviceType(Register):
 
     def __init__(self):
