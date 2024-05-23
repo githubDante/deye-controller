@@ -10,6 +10,9 @@ DEYE-controller
     - deye-scan is a scanner for dataloggers in the local network (not DEYE related)
     - deye-regwrite - for writing to individual registers
 
+* Monkey patching:
+    - direct value assignment on read for the Register and RegistersGroup types (see the examples dir)
+
 * Tested with:
     - SUN-12K-SG04LP3 / LSW-3
 
