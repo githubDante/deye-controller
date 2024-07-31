@@ -177,6 +177,53 @@ class HoldingRegistersSingleString(HoldingRegistersSingleCommon):
     RCDLeakCurrent = FloatType(98, 'RCD_leak_current', scale=100, suffix='A')
     PowerLimiter = FloatType(99, 'power_limiter', scale=1, suffix='W')
 
+    """ String current """
+    String_1_Current = FloatType(150, 'string_1_current', scale=10, suffix='A')
+    String_2_Current = FloatType(151, 'string_2_current', scale=10, suffix='A')
+    String_3_Current = FloatType(152, 'string_3_current', scale=10, suffix='A')
+    String_4_Current = FloatType(153, 'string_4_current', scale=10, suffix='A')
+    String_5_Current = FloatType(154, 'string_5_current', scale=10, suffix='A')
+    String_6_Current = FloatType(155, 'string_6_current', scale=10, suffix='A')
+    String_7_Current = FloatType(156, 'string_7_current', scale=10, suffix='A')
+    String_8_Current = FloatType(157, 'string_8_current', scale=10, suffix='A')
+    String_9_Current = FloatType(158, 'string_9_current', scale=10, suffix='A')
+    String_10_Current = FloatType(159, 'string_10_current', scale=10, suffix='A')
+    String_11_Current = FloatType(160, 'string_11_current', scale=10, suffix='A')
+    String_12_Current = FloatType(161, 'string_12_current', scale=10, suffix='A')
+    String_13_Current = FloatType(162, 'string_13_current', scale=10, suffix='A')
+    String_14_Current = FloatType(163, 'string_14_current', scale=10, suffix='A')
+    String_15_Current = FloatType(164, 'string_15_current', scale=10, suffix='A')
+    String_16_Current = FloatType(165, 'string_16_current', scale=10, suffix='A')
+    """ String power """
+    String_1_Power = LongUnsignedType(166, 'string_1_power', scale=10, suffix='kWh')
+    String_2_Power = LongUnsignedType(168, 'string_2_power', scale=10, suffix='kWh')
+    String_3_Power = LongUnsignedType(170, 'string_3_power', scale=10, suffix='kWh')
+    String_4_Power = LongUnsignedType(172, 'string_4_power', scale=10, suffix='kWh')
+    String_5_Power = LongUnsignedType(174, 'string_5_power', scale=10, suffix='kWh')
+    String_6_Power = LongUnsignedType(176, 'string_6_power', scale=10, suffix='kWh')
+    String_7_Power = LongUnsignedType(178, 'string_7_power', scale=10, suffix='kWh')
+    String_8_Power = LongUnsignedType(180, 'string_8_power', scale=10, suffix='kWh')
+    String_9_Power = LongUnsignedType(182, 'string_9_power', scale=10, suffix='kWh')
+    String_10_Power = LongUnsignedType(184, 'string_10_power', scale=10, suffix='kWh')
+    String_11_Power = LongUnsignedType(186, 'string_11_power', scale=10, suffix='kWh')
+    String_12_Power = LongUnsignedType(188, 'string_12_power', scale=10, suffix='kWh')
+    String_13_Power = LongUnsignedType(190, 'string_13_power', scale=10, suffix='kWh')
+    String_14_Power = LongUnsignedType(192, 'string_14_power', scale=10, suffix='kWh')
+    String_15_Power = LongUnsignedType(194, 'string_15_power', scale=10, suffix='kWh')
+    String_16_Power = LongUnsignedType(196, 'string_16_power', scale=10, suffix='kWh')
+
+    """ Daily & Total 
+        Hist values probably should be renamed to Total 
+    """
+    LoadActivePower = LongUnsignedType(198, 'load_active_power', scale=1, suffix='W')
+    DailyLoadPower = FloatType(200, 'daily_load_power', scale=100, suffix='kWh')
+    HistActivePower = LongUnsignedType(201, 'history_active_power', scale=10, suffix='kWh')
+    MeterActivePower = LongType(203, 'meter_active_power', scale=10, suffix='kWh')
+    DailyGridSell = FloatType(205, 'daily_grid_sell', scale=100, suffix='kWh')
+    HistGridSell = LongUnsignedType(206, 'history_grid_sell', scale=10, suffix='kWh')
+    DailyGridBuy = FloatType(208, 'daily_grid_buy', scale=100, suffix='kWh')
+    HistGridBuy = LongUnsignedType(209, 'history_grid_buy', scale=10, suffix='kWh')
+
     @staticmethod
     def as_list() -> List[Register]:
         """ Method for easy iteration over the registers defined here  """
