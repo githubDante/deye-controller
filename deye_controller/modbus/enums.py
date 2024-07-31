@@ -1,6 +1,19 @@
 import enum
 
 
+class InverterType(int, enum.Enum):
+
+    Inverter = 2
+    Hybrid = 3
+    Microinverter = 4
+    Hybrid3Phase = 5
+    Unknown = 0
+
+    @classmethod
+    def _missing_(cls, value):
+        return InverterType.Unknown
+
+
 class InverterState(int, enum.Enum):
 
     StandBy     = 0

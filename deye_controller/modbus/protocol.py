@@ -11,19 +11,6 @@ import datetime
 from .enums import *
 
 
-class InverterType(int, enum.Enum):
-
-    Inverter = 2
-    Hybrid = 3
-    Microinverter = 4
-    Hybrid3Phase = 5
-    Unknown = 0
-
-    @classmethod
-    def _missing_(cls, value):
-        return InverterType.Unknown
-
-
 class Register(object):
 
     """ Base register of 2 bytes """
@@ -109,6 +96,26 @@ class LongUnsignedType(Register):
             return calculated
         else:
             return round(calculated / self.scale, 2)
+
+
+class LongUnsignedHoleType(Register):
+    """
+    For single phase inverters where the data is not in sequential registers
+    """
+
+    def __init__(self, address, name, scale, suffix=''):
+        super(LongUnsignedHoleType, self).__init__(address, 3, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_unsigned_bytes(self.value[::-2])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
 
 
 class DeviceType(Register):
