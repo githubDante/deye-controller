@@ -202,3 +202,16 @@ class WorkMode(int, enum.Enum):
     @classmethod
     def _missing_(cls, value):
         return WorkMode.Unknown
+
+
+class Relay(int, enum.Enum):
+    Open = 0
+    Closed = 1
+    Error = -1
+
+    @classmethod
+    def _missing_(cls, value):
+        return Relay.Error
+
+    def __format__(self, format_spec):
+        return self.name

@@ -237,8 +237,18 @@ class BatteryControl(Register):
 
     def format(self):
         return BatteryControlMode(self.value)
-    
-    
+
+
+class BatteryTemp(Register):
+
+    def __init__(self, address):
+        super(BatteryTemp, self).__init__(address, 1, 'battery_temp')
+        self.suffix = '°C'
+
+    def format(self):
+        return round((self.value - 1000) / 10, 2)
+
+
 class BMSBatteryTemp(Register):
     
     def __init__(self):

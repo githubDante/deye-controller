@@ -4,7 +4,20 @@ MODBUS Registers for DEYE single phase inverters
 from typing import List
 from .protocol import (LongType, LongUnsignedType, BoolType, DeviceTime, DeviceType,
                        DeviceSerialNumber, IntType, FloatType, RunState, Register,
-                       LongUnsignedHoleType, TempWithOffset)
+                       LongUnsignedHoleType, TempWithOffset, BatteryTemp)
+
+from .enums import Relay
+
+
+class RelayStatus(Register):
+    """
+    Relay status for single phase Hybrid & Micro - Reg: 194
+    """
+    def __init__(self):
+        super().__init__(194, 1, 'relay_status')
+
+    def format(self):
+        return Relay(self.value)
 
 
 class DeviceTimeSingle(DeviceTime):
@@ -79,7 +92,71 @@ class HoldingRegistersSingleCommon:
     """ Debug & MI data up to #150 """
 
 
-class HoldingRegistersSingleMicro(HoldingRegistersSingleCommon):
+class HoldingRegistersSingleNoString:
+    """
+    Common registers for Micro & Hybrid
+    """
+    """ CT maybe """
+    GridVoltageL1 = FloatType(150, 'grid_side_voltage_l1', scale=10, suffix='V')
+    GridVoltageL2 = FloatType(151, 'grid_side_voltage_l2', scale=10, suffix='V')
+    GridVoltageDiff = FloatType(152, 'grid_side_voltage_l1-l2', scale=10, suffix='V')
+
+    """ Relay voltage """
+    RelayVoltage = FloatType(153, 'voltage_at_the_relay', scale=10, suffix='V')
+
+    InverterOutVoltageL1 = FloatType(154, 'inv_out_voltage_l1', scale=10, suffix='V')
+    InverterOutVoltageL2 = FloatType(155, 'inv_out_voltage_l2', scale=10, suffix='V')
+    InverterOutVoltageDiff = FloatType(156, 'inv_out_voltage_l1-l2', scale=10, suffix='V')
+
+    LoadVoltageL1 = FloatType(157, 'load_voltage_l1', scale=10, suffix='V')
+    LoadVoltageL2 = FloatType(158, 'load_voltage_l1', scale=10, suffix='V')
+
+    GridCurrentL1 = FloatType(160, 'grid_side_current_l1', scale=100, suffix='A', signed=True)
+    GridCurrentL2 = FloatType(161, 'grid_side_current_l2', scale=100, suffix='A', signed=True)
+    GridExtLimiterL1 = FloatType(162, 'grid_limiter_l1', scale=100, suffix='A', signed=True)
+    GridExtLimiterL2 = FloatType(163, 'grid_limiter_l2', scale=100, suffix='A', signed=True)
+    InverterCurrentL1 = FloatType(164, 'inverter_current_l1', scale=100, suffix='A', signed=True)
+    InverterCurrentL2 = FloatType(165, 'inverter_current_l2', scale=100, suffix='A', signed=True)
+
+    GridPowerL1 = IntType(167, 'grid_side_power_l1', suffix='W', signed=True)
+    GridPowerL2 = IntType(168, 'grid_side_power_l1', suffix='W', signed=True)
+    GridPowerTotal = IntType(169, 'grid_side_total_power', suffix='W', signed=True)
+
+    GridExtLimiterPwrL1 = IntType(170, 'grid_side_limiter_l1_power', suffix='W', signed=True)
+    GridExtLimiterPwrL2 = IntType(171, 'grid_side_limiter_l2_power', suffix='W', signed=True)
+    GridExtLimiterPwrT = IntType(172, 'grid_side_limiter_total_power', suffix='W', signed=True)
+
+    InverterPowerL1 = IntType(173, 'inverter_power_l1', suffix='W', signed=True)
+    InverterPowerL2 = IntType(174, 'inverter_power_l2', suffix='W', signed=True)
+    InverterTotalPower = IntType(175, 'inverter_total_power', suffix='W', signed=True)
+
+    LoadPowerL1 = IntType(176, 'load_power_l1', suffix='W', signed=True)
+    LoadPowerL2 = IntType(177, 'load_power_l2', suffix='W', signed=True)
+    LoadTotalPower = IntType(178, 'load_total_power', suffix='W', signed=True)
+    LoadCurrentL1 = FloatType(179, 'load_current_l1', scale=100, suffix='A', signed=True)
+    LoadCurrentL2 = FloatType(180, 'load_current_l2', scale=100, suffix='A', signed=True)
+
+    """" Battery """
+    BatteryTemp = BatteryTemp(182)
+    BatteryVoltage = FloatType(183, 'battery_voltage', scale=100, suffix='V')
+    BatterySOC = IntType(184, 'battery_SOC', suffix='%')
+
+    """ PV """
+    PV1Power = IntType(186, 'pv1_power', suffix='W')
+    PV2Power = IntType(187, 'pv2_power', suffix='W')
+    PV3Power = IntType(188, 'pv3_power', suffix='W')
+    PV4Power = IntType(189, 'pv4_power', suffix='W')
+
+    BatteryPower = IntType(190, 'battery_power', suffix='W', signed=True)
+    BatteryCurrent = FloatType(191, 'battery_current', scale=100, suffix='A', signed=True)
+
+    LoadFrequency = FloatType(192, 'load_frequency', scale=100, suffix='Hz')
+    InverterFrequency = FloatType(193, 'inverter_frequency', scale=100, suffix='Hz')
+
+    RelayStatus = RelayStatus()
+
+
+class HoldingRegistersSingleMicro(HoldingRegistersSingleCommon, HoldingRegistersSingleNoString):
     """ Single phase + Micro Inverter specific """
 
     GridUpperLimit_V = FloatType(27, 'grid_voltage_upper_limit', 10, suffix='V')
@@ -120,7 +197,7 @@ class HoldingRegistersSingleMicro(HoldingRegistersSingleCommon):
                 and not x.startswith('as_')]
 
 
-class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon):
+class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon, HoldingRegistersSingleNoString):
     """ Single phase + Hybrid Inverter specific """
 
     MonthlyPVPower = IntType(65, 'monthly_pv_power', suffix='kWh')
@@ -143,7 +220,6 @@ class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon):
     AnnualLoadPower = LongUnsignedType(87, 'annual_load_power', scale=10, suffix='kWh')
     AnnualGridOutPower = LongUnsignedType(98, 'annual_grid_out_power', scale=10, suffix='kWh')
 
-
     @staticmethod
     def as_list() -> List[Register]:
         """ Method for easy iteration over the registers defined here  """
@@ -155,7 +231,7 @@ class HoldingRegistersSingleHybrid(HoldingRegistersSingleCommon):
 class HoldingRegistersSingleString(HoldingRegistersSingleCommon):
     """ String inverter specific """
 
-    TotalReactivePower = LongType(65, 'total_reactive_power', scale=10, suffix='kVarh')
+    TotalReactivePower = LongType(65, 'total_reactive_power', scale=10, suffix='kVarH')
     TotalWorkTime = LongType(67, 'total_work_time', scale=10, suffix='hours')
     InverterEfficiency = FloatType(69, 'inverter_efficiency', scale=10, suffix='%')
     GridVoltageAB = FloatType(70, 'grid_voltage_ab', scale=10, suffix='V')
