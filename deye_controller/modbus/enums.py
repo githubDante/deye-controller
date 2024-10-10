@@ -172,3 +172,20 @@ class GenPortMode(int, enum.Enum):
     def __str__(self):
         return self.name
 
+
+class WorkMode(int, enum.Enum):
+    """
+    Register 142 - GH #16
+    """
+
+    SellingFirst = 0
+    ZeroExportToLoad = 1
+    ZeroExportToCT = 2
+    Unknown = -1
+
+    def __str__(self):
+        return self.name
+
+    @classmethod
+    def _missing_(cls, value):
+        return WorkMode.Unknown

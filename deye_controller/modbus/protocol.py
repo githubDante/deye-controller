@@ -345,6 +345,14 @@ class GenPortUse(Register):
         return str(GenPortMode(self.value))
 
 
+class InverterWorkMode(Register):
+    def __init__(self):
+        super().__init__(142, 1, 'work_mode')
+
+    def format(self):
+        return str(WorkMode(self.value))
+
+
 class HoldingRegisters:
 
     DeviceType = DeviceType()
@@ -393,7 +401,7 @@ class HoldingRegisters:
     """ Smart Load control - need more info  """
     GeneratorPortSetup = GenPortUse()
     """ Smart Load """
-
+    IverterWorkMode = InverterWorkMode()
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SolarSell = BoolType(145, 'solar_sell')
     SellTimeOfUse = TimeOfUseSell()
@@ -861,6 +869,7 @@ class WritableRegisters:
     SmartLoadOnVoltage = FloatWritable(address=136, low_limit=38, high_limit=63, scale=100)
     SmartLoadOnCapacity = IntWritable(address=137, low_limit=0, high_limit=100)
 
+    InverterWorkMode = IntWritable(address=142, low_limit=0, high_limit=2)
     GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
     SolarSell = BoolWritable(address=145)
 
