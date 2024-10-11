@@ -215,3 +215,18 @@ class Relay(int, enum.Enum):
 
     def __format__(self, format_spec):
         return self.name
+
+
+class BatteryControlSingle(int, enum.Enum):
+
+    Lead = 0
+    Lithium = 1
+
+    Error = -1
+
+    def __format__(self, format_spec):
+        return self.name
+
+    @classmethod
+    def _missing_(cls, value):
+        return BatteryControlSingle.Error

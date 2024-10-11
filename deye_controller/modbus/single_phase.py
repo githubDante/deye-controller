@@ -6,7 +6,7 @@ from .protocol import (LongType, LongUnsignedType, BoolType, DeviceTime, DeviceT
                        DeviceSerialNumber, IntType, FloatType, RunState, Register,
                        LongUnsignedHoleType, TempWithOffset, BatteryTemp)
 
-from .enums import Relay
+from .enums import Relay, BatteryControlSingle, BatteryControlMode, TwoBitState
 
 
 class RelayStatus(Register):
@@ -38,6 +38,34 @@ class RunStateSingle(RunState):
     def __init__(self):
         super().__init__()
         self.address = 59
+        
+        
+class BatteryMode(Register):
+    
+    def __init__(self):
+        super().__init__(200, 1, 'battery_mode')
+
+    def format(self):
+        return BatteryControlSingle(self.value)
+    
+    
+class BatteryControl(Register):
+    def __init__(self):
+        super().__init__(213, 1,'battery_control_mode')
+
+    def format(self):
+        return BatteryControlMode(self.value)
+
+
+class LithiumWakeUpSingle(Register):
+    """
+    Register: 214
+    """
+    def __init__(self):
+        super().__init__(214, 1, 'battery_wakeup')
+
+    def format(self):
+        return TwoBitState(self.value)
 
 
 class HoldingRegistersSingleCommon:
@@ -90,6 +118,55 @@ class HoldingRegistersSingleCommon:
     DailyPVPower = FloatType(108, 'daily_pv_power', scale=10, suffix='kWh')
 
     """ Debug & MI data up to #150 """
+    """ String, Hybrid & micro separated """
+    """ Next common 200 - not sure if applies to Micro """
+
+    """ R/W """
+    BatteryMode = BatteryMode()
+    EqualizationV = FloatType(201, 'equalization_voltage', scale=10, suffix='V')
+    AbsorptionV = FloatType(202, 'absorption_voltage', scale=10, suffix='V')
+    FloatV = FloatType(203, 'absorption_voltage', scale=10, suffix='V')
+    BatteryCapacity = IntType(204, 'battery_capacity', suffix='Ah')
+    DisplayedSOC = IntType(205, 'LCD_displayed_SOC', suffix='%')
+    BatteryTempProtectionLow = OffsetValue(206, 'battery_low_temp_protection', scale=10,
+                                           offset=1000, suffix='°C')
+
+    EqualizationCycle = IntType(207, 'equalization_cycle', suffix='days')
+    EqualizationTime = IntType(208, 'equalization_time', suffix='half-hour')
+    TEMPCO = IntType(209, 'TEMPCO', suffix='mv/°C')
+
+    MaxChargeCurrent = IntType(210, 'max_charge_current', suffix='A')
+    MaxDischargeCurrent = IntType(211, 'max_discharge_current', suffix='A')
+
+    BatteryControl = BatteryControl()
+    BatteryWakeup = LithiumWakeUpSingle()
+    BatteryResistance = IntType(215, 'battery_resistance', suffix='mOhm')
+    BatterChargingEff = FloatType(216, 'battery_charge_efficiency', suffix='%', scale=10)
+    BatterySocShutDown = IntType(217, 'battery_shutdown_soc', suffix='%')
+    BatterySocRestart = IntType(218, 'battery_restart_soc', suffix='%')
+    BatterySocLow = IntType(219, 'battery_low_soc', suffix='%')
+
+    BatteryVShutDown = FloatType(220, 'battery_shutdown_voltage', suffix='V', scale=100)
+    BatteryVRestart = FloatType(221, 'battery_restart_voltage', suffix='V', scale=100)
+    BatteryVLow = FloatType(222, 'battery_low_voltage', suffix='V', scale=100)
+
+    GeneratorMaxTime = FloatType(223, 'gen_max_work_time', suffix='hour(s)', scale=10)
+    GeneratorCoolingTime = FloatType(224, 'gen_cooling_time', suffix='hour(s)', scale=10)
+
+    GeneratorChargingVPoint = FloatType(225, 'gen_charge_start_v', scale=100, suffix='V')
+    GeneratorChargingSOCPoint = IntType(226, 'gen_charge_start_soc', suffix='%')
+    GeneratorChargeCurrent = IntType(227, 'gen_charge_current_limit', suffix='A')
+
+    GridChargingVPoint = FloatType(228, 'grid_charge_start_v', scale=100, suffix='V')
+    GridChargingSOCPoint = IntType(229, 'grid_charge_start_soc', suffix='%')
+    GridChargeCurrent = IntType(230, 'grid_charge_current_limit', suffix='A')
+
+    GeneratorChargeEnabled = BoolType(231, 'gen_charge_enabled')
+    GridChargeEnabled = BoolType(232, 'grid_charge_enabled')
+    # TODO: continue
+
+
+
 
 
 class HoldingRegistersSingleNoString:
