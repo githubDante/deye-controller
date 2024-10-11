@@ -11,19 +11,6 @@ import datetime
 from .enums import *
 
 
-class InverterType(int, enum.Enum):
-
-    Inverter = 2
-    Hybrid = 3
-    Microinverter = 4
-    Hybrid3Phase = 5
-    Unknown = 0
-
-    @classmethod
-    def _missing_(cls, value):
-        return InverterType.Unknown
-
-
 class Register(object):
 
     """ Base register of 2 bytes """
@@ -109,6 +96,26 @@ class LongUnsignedType(Register):
             return calculated
         else:
             return round(calculated / self.scale, 2)
+
+
+class LongUnsignedHoleType(Register):
+    """
+    For single phase inverters where the data is not in sequential registers
+    """
+
+    def __init__(self, address, name, scale, suffix=''):
+        super(LongUnsignedHoleType, self).__init__(address, 3, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_unsigned_bytes(self.value[::-2])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
 
 
 class DeviceType(Register):
@@ -230,8 +237,18 @@ class BatteryControl(Register):
 
     def format(self):
         return BatteryControlMode(self.value)
-    
-    
+
+
+class BatteryTemp(Register):
+
+    def __init__(self, address):
+        super(BatteryTemp, self).__init__(address, 1, 'battery_temp')
+        self.suffix = '°C'
+
+    def format(self):
+        return round((self.value - 1000) / 10, 2)
+
+
 class BMSBatteryTemp(Register):
     
     def __init__(self):
@@ -345,6 +362,14 @@ class GenPortUse(Register):
         return str(GenPortMode(self.value))
 
 
+class InverterWorkMode(Register):
+    def __init__(self):
+        super().__init__(142, 1, 'work_mode')
+
+    def format(self):
+        return str(WorkMode(self.value))
+
+
 class HoldingRegisters:
 
     DeviceType = DeviceType()
@@ -393,7 +418,7 @@ class HoldingRegisters:
     """ Smart Load control - need more info  """
     GeneratorPortSetup = GenPortUse()
     """ Smart Load """
-
+    IverterWorkMode = InverterWorkMode()
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SolarSell = BoolType(145, 'solar_sell')
     SellTimeOfUse = TimeOfUseSell()
@@ -861,6 +886,7 @@ class WritableRegisters:
     SmartLoadOnVoltage = FloatWritable(address=136, low_limit=38, high_limit=63, scale=100)
     SmartLoadOnCapacity = IntWritable(address=137, low_limit=0, high_limit=100)
 
+    InverterWorkMode = IntWritable(address=142, low_limit=0, high_limit=2)
     GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
     SolarSell = BoolWritable(address=145)
 

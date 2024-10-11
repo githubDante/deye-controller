@@ -1,6 +1,19 @@
 import enum
 
 
+class InverterType(int, enum.Enum):
+
+    Inverter = 2
+    Hybrid = 3
+    Microinverter = 4
+    Hybrid3Phase = 5
+    Unknown = 0
+
+    @classmethod
+    def _missing_(cls, value):
+        return InverterType.Unknown
+
+
 class InverterState(int, enum.Enum):
 
     StandBy     = 0
@@ -172,3 +185,48 @@ class GenPortMode(int, enum.Enum):
     def __str__(self):
         return self.name
 
+
+class WorkMode(int, enum.Enum):
+    """
+    Register 142 - GH #16
+    """
+
+    SellingFirst = 0
+    ZeroExportToLoad = 1
+    ZeroExportToCT = 2
+    Unknown = -1
+
+    def __str__(self):
+        return self.name
+
+    @classmethod
+    def _missing_(cls, value):
+        return WorkMode.Unknown
+
+
+class Relay(int, enum.Enum):
+    Open = 0
+    Closed = 1
+    Error = -1
+
+    @classmethod
+    def _missing_(cls, value):
+        return Relay.Error
+
+    def __format__(self, format_spec):
+        return self.name
+
+
+class BatteryControlSingle(int, enum.Enum):
+
+    Lead = 0
+    Lithium = 1
+
+    Error = -1
+
+    def __format__(self, format_spec):
+        return self.name
+
+    @classmethod
+    def _missing_(cls, value):
+        return BatteryControlSingle.Error
