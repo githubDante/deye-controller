@@ -1,7 +1,7 @@
 """
 MODBUS Registers for DEYE 12K Inverters
 """
-from abc import abstractmethod, ABCMeta
+from abc import abstractmethod
 from textwrap import wrap
 import enum
 import struct
@@ -37,6 +37,18 @@ class Register(object):
     @abstractmethod
     def format(self):
         pass
+
+    def format_custom(self, scaling: float, prefix: str = '') -> float:
+        """
+        Custom format
+
+        :param scaling: Scaling applied to the register value
+        :param prefix: Extra prefix (will be added to the suffix permanently on first use)
+        :return:
+        """
+        self.suffix = prefix + self.suffix
+
+        return round(self.format() / scaling, 3)
 
 
 class IntType(Register):
@@ -499,6 +511,8 @@ class HoldingRegisters:
     TodayFromPV = FloatType(529, 'today_from_pv', 10, suffix='kWh')
     TodayFromPVString1 = FloatType(530, 'today_from_pv_s1', 10, suffix='kWh')
     TodayFromPVString2 = FloatType(531, 'today_from_pv_s2', 10, suffix='kWh')
+    TodayFromPVString3 = FloatType(532, 'today_from_pv_s3', 10, suffix='kWh')
+    TodayFromPVString4 = FloatType(533, 'today_from_pv_s4', 10, suffix='kWh')
     TotalFromPV = LongUnsignedType(534, 'total_from_pv', 10, suffix='kWh')
     TodayFromGenerator = FloatType(536, 'today_from_generator', 10, suffix='kWh')
     TotalFromGenerator = LongUnsignedType(537, 'total_from_generator', 10, suffix='kWh')
@@ -597,10 +611,16 @@ class HoldingRegisters:
     """ PV Inputs """
     PV1InPower = IntType(672, 'pv1_in_power', suffix='W')
     PV2InPower = IntType(673, 'pv2_in_power', suffix='W')
+    PV3InPower = IntType(674, 'pv3_in_power', suffix='W')
+    PV4InPower = IntType(675, 'pv4_in_power', suffix='W')
     PV1Voltage = FloatType(676, 'pv1_volt', 10, suffix='V')
     PV1Current = FloatType(677, 'pv1_current', 10, suffix='A')
     PV2Voltage = FloatType(678, 'pv2_volt', 10, suffix='V')
     PV2Current = FloatType(679, 'pv2_current', 10, suffix='A')
+    PV3Voltage = FloatType(680, 'pv3_volt', 10, suffix='V')
+    PV3Current = FloatType(681, 'pv3_current', 10, suffix='A')
+    PV4Voltage = FloatType(682, 'pv4_volt', 10, suffix='V')
+    PV4Current = FloatType(683, 'pv4_current', 10, suffix='A')
 
     @staticmethod
     def as_list() -> List[Register]:

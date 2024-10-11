@@ -30,6 +30,7 @@ TODO List
 
 Examples
 ==============
+* After version 0.2.0 PySolarmanV5 can be patched for even easier reading `see here <examples/README_PATCH.rst>`_
 * Basic usage:
 
     * read a register from the inverter

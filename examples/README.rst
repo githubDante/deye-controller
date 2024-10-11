@@ -1,6 +1,20 @@
 Additional examples
 ====================
 
+* Custom scaling
+
+  .. code-block:: python
+
+    >>> HoldingRegisters.PV1InPower.value = 5000
+    >>> HoldingRegisters.PV1InPower.format()
+    5000
+    >>> HoldingRegisters.PV1InPower.suffix
+    'W'
+    >>> HoldingRegisters.PV1InPower.format_custom(1000, 'k')
+    5.0
+    >>> HoldingRegisters.PV1InPower.suffix
+    'kW'
+
 * Faster reading
 
   .. code-block:: python
