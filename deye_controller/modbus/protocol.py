@@ -1,6 +1,7 @@
 """
 MODBUS Registers for DEYE 12K Inverters
 """
+
 from abc import abstractmethod
 from textwrap import wrap
 import enum
@@ -347,6 +348,22 @@ class WarningTwo(Register):
             'Parallel-COMM-Lost': parallel_com
         }
 
+class FaultInformation(Register):
+
+    def __init__(self):
+        super().__init__(555, 4, 'fault_information')
+
+    def format(self):
+        e_code = struct.unpack('>I', bytearray(self.value))
+        fault = DeyeHybridFaultInfo(e_code[0])
+
+        error = f'{fault.name}: {fault_map_hybrid.get(fault, "Undocumented")}'
+        if fault == DeyeHybridFaultInfo.F99:
+            error += f' [{e_code[0]}]'
+
+        return error
+
+
 
 class GenPortUse(Register):
 
@@ -527,6 +544,7 @@ class HoldingRegisters:
     """ WARNINGS """
     Warning_1 = WarningOne()
     Warning_2 = WarningTwo()
+    Fault = FaultInformation()
     BatteryTemp = FloatType(586, 'battery_temperature', 100, suffix='°C')
     BatteryVoltage = FloatType(587, 'battery_voltage', 100, suffix='V')
     BatterySOC = FloatType(588, 'battery_soc', 1, suffix='%')
