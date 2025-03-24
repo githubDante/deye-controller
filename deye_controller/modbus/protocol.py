@@ -430,7 +430,7 @@ class HoldingRegisters:
     """ Smart Load control - need more info  """
     GeneratorPortSetup = GenPortUse()
     """ Smart Load """
-    IverterWorkMode = InverterWorkMode()
+    InverterWorkMode = InverterWorkMode()
     GridExportLimit = IntType(143, 'grid_max_output_pwr', suffix='W')
     SolarSell = BoolType(145, 'solar_sell')
     SellTimeOfUse = TimeOfUseSell()
