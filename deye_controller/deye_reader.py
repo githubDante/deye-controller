@@ -2,12 +2,15 @@ from pysolarmanv5 import PySolarmanV5, V5FrameError
 from .modbus.protocol import HoldingRegisters, BatteryOnlyRegisters, TotalPowerOnly
 from .logger_scan import solar_scan
 from argparse import ArgumentParser
-from .utils import group_registers, map_response
+from .utils import group_registers, map_response, is_host_reachable
 import json
 
 
 def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=False, combo=False,
                   as_json=False, to_file=None):
+    if not is_host_reachable(address, 8899):
+        print(f"Logger at [{address}] is unreachable")
+        return
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10,
                        error_correction=True)
     iterator = []
@@ -65,6 +68,9 @@ def read_inverter(address: str, logger_serial: int, batt_only=False, power_only=
 
 
 def _read_registers(address: str, logger_serial: int, start: int, length: int):
+    if not is_host_reachable(address, 8899):
+        print(f"Logger at [{address}] is unreachable")
+        return
     inv = PySolarmanV5(address, int(logger_serial), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10)
     try:
         res = inv.read_holding_registers(start, length)
@@ -79,6 +85,9 @@ def _read_registers(address: str, logger_serial: int, start: int, length: int):
 
 
 def _write_register(address: str, logger: int, reg_address: int, val: int):
+    if not is_host_reachable(address, 8899):
+        print(f"Logger at [{address}] is unreachable")
+        return
     inv = PySolarmanV5(address, int(logger), port=8899, mb_slave_id=1, verbose=False, socket_timeout=10)
     try:
         res = inv.write_multiple_holding_registers(reg_address, [val])
