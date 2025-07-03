@@ -4,11 +4,11 @@ PyslormanV5 monkey patching
 from typing import Union, Optional, List
 from pysolarmanv5 import PySolarmanV5, PySolarmanV5Async
 from umodbus.client.serial import rtu
-from deye_controller.modbus.protocol import Register
+from deye_controller.modbus.protocol import Register, RegisterNC
 from deye_controller.utils import RegistersGroup, map_response
 
 
-def __patched_read_holding(self: PySolarmanV5, register: Union[Register, RegistersGroup, int],
+def __patched_read_holding(self: PySolarmanV5, register: Union[Register, RegistersGroup, RegisterNC, int],
                            quantity=1) -> Optional[List[int]]:
 
         """Read holding registers from modbus slave (Modbus function code 3)
@@ -22,12 +22,17 @@ def __patched_read_holding(self: PySolarmanV5, register: Union[Register, Registe
         :rtype: list[int] | None
         """
 
-        if isinstance(register, Register) or isinstance(register, RegistersGroup):
+        if isinstance(register, Register) or isinstance(register, RegistersGroup) \
+                or isinstance(register, RegisterNC):
+
             quantity = register.len
             if isinstance(register, Register):
                 start_address = register.address
-            else:
+            elif isinstance(register, RegistersGroup):
                 start_address = register.start_address
+            else:
+                start_address = register.address1
+                start_address2 = register.address2
 
         else:
             quantity = quantity
@@ -37,7 +42,16 @@ def __patched_read_holding(self: PySolarmanV5, register: Union[Register, Registe
             self.mb_slave_id, start_address, quantity
         )
         modbus_values = self._get_modbus_response(mb_request_frame)
-        if isinstance(register, RegistersGroup):
+
+        if isinstance(register, RegisterNC):
+            mb_request_frame = rtu.read_holding_registers(
+                self.mb_slave_id, start_address2, quantity  # noqa
+            )
+            modbus_values2 = self._get_modbus_response(mb_request_frame)
+            register.value = modbus_values[0]
+            register.value = modbus_values2[0]
+
+        elif isinstance(register, RegistersGroup):
             map_response(modbus_values, register)
         elif isinstance(register, Register):
             register.value = modbus_values[0] if register.len == 1 else modbus_values
@@ -45,8 +59,9 @@ def __patched_read_holding(self: PySolarmanV5, register: Union[Register, Registe
             return modbus_values
 
 
-async def __patched_async_read_holding(self: PySolarmanV5Async, register: Union[Register, RegistersGroup, int],
-                                     quantity=1) -> Optional[List[int]]:
+async def __patched_async_read_holding(self: PySolarmanV5Async,
+                                       register: Union[Register, RegistersGroup, RegisterNC, int],
+                                       quantity=1) -> Optional[List[int]]:
     """Read holding registers from modbus slave (Modbus function code 3)
 
     :param register: deye-controller Register/RegistersGroup or Modbus start address
@@ -58,12 +73,16 @@ async def __patched_async_read_holding(self: PySolarmanV5Async, register: Union[
     :rtype: list[int] | None
 
     """
-    if isinstance(register, Register) or isinstance(register, RegistersGroup):
+    if isinstance(register, Register) or isinstance(register, RegistersGroup) \
+            or isinstance(register, RegisterNC):
         quantity = register.len
         if isinstance(register, Register):
             start_address = register.address
-        else:
+        elif isinstance(register, RegistersGroup):
             start_address = register.start_address
+        else:
+            start_address = register.address1
+            start_address2 = register.address2
 
     else:
         quantity = quantity
@@ -73,7 +92,16 @@ async def __patched_async_read_holding(self: PySolarmanV5Async, register: Union[
         self.mb_slave_id, start_address, quantity
     )
     modbus_values = await self._get_modbus_response(mb_request_frame)
-    if isinstance(register, RegistersGroup):
+
+    if isinstance(register, RegisterNC):
+        mb_request_frame = rtu.read_holding_registers(
+            self.mb_slave_id, start_address2, quantity  # noqa
+        )
+        modbus_values2 = await self._get_modbus_response(mb_request_frame)
+        register.value = modbus_values[0]
+        register.value = modbus_values2[0]
+
+    elif isinstance(register, RegistersGroup):
         map_response(modbus_values, register)
     elif isinstance(register, Register):
         register.value = modbus_values[0] if register.len == 1 else modbus_values

@@ -52,6 +52,51 @@ class Register(object):
         return round(self.format() / scaling, 3)
 
 
+class RegisterNC(object):
+    """
+    Non-contiguous register. Found in more powerful Deye models (35/50kW)
+    """
+    def __init__(self, address1, address2, description=''):
+        self.address1 = address1
+        self.address2 = address2
+        self.len = 1
+        self.description = description
+        #self.value = None
+        self.val1 = 0
+        self.val2 = 0
+        self.suffix = ''
+        self._head_set = False
+
+    @abstractmethod
+    def format(self):
+        pass
+
+    @property
+    def value(self) -> List[int]:
+        return [self.val1, self.val2]
+
+    @value.setter
+    def value(self, x: int):
+        if self._head_set ^ True:
+            self.val1 = x
+            self._head_set ^= True
+        else:
+            self.val2 = x
+            self._head_set ^= True
+
+    def format_custom(self, scaling: float, prefix: str = '') -> float:
+        """
+        Custom format
+
+        :param scaling: Scaling applied to the register value
+        :param prefix: Extra prefix (will be added to the suffix permanently on first use)
+        :return:
+        """
+        self.suffix = prefix + self.suffix
+
+        return round(self.format() / scaling, 3)
+
+
 class IntType(Register):
 
     def __init__(self, address, name, suffix='', signed=False):
@@ -117,6 +162,37 @@ class LongUnsignedType(Register):
 
     def format(self):
         v = to_unsigned_bytes(self.value[::-1])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
+
+class LongUnsignedNCType(RegisterNC):
+
+    def __init__(self, address1, address2, name, scale, suffix=''):
+        super(LongUnsignedNCType, self).__init__(address1, address2, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_unsigned_bytes(self.value[::-1])
+        calculated = int.from_bytes(v, byteorder='big')
+        if self.scale == 1:
+            return calculated
+        else:
+            return round(calculated / self.scale, 2)
+
+
+class LongNCType(RegisterNC):
+    def __init__(self, address1, address2, name, scale, suffix=''):
+        super(LongNCType, self).__init__(address1, address2, name)
+        self.scale = scale
+        self.suffix = suffix
+
+    def format(self):
+        v = to_bytes(self.value[::-1])
         calculated = int.from_bytes(v, byteorder='big')
         if self.scale == 1:
             return calculated
