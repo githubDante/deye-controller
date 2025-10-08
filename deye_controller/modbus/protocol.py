@@ -502,6 +502,8 @@ class HoldingRegisters:
     GridChargeStartVolts = FloatType(126, 'grid_charge_start_voltage', 100, suffix='V')
     GridChargeStartCapacity = IntType(127, 'grid_charge_start_soc', suffix='%')
     GridChargeCurrent = IntType(128, 'grid_charge_current', suffix='A')
+    GeneratorChargeEnable = BoolType(129, 'gen_charge_enable')
+    GridChargeEnable = BoolType(130, 'grid_charge_enable')
 
     """ Smart Load control - need more info  """
     GeneratorPortSetup = GenPortUse()
