@@ -977,6 +977,7 @@ class WritableRegisters:
     GridChargeStartCapacity = IntWritable(address=127, low_limit=0, high_limit=100)
     """ High limit - 63 in the MODBUS documentation """
     GridChargeBattCurrent = IntWritable(address=128, low_limit=0, high_limit=185)
+    GridChargeEnable = BoolWritable(address=130)
 
     """ Smart load options """
     GenPortUse = GenPortUseWritable()
