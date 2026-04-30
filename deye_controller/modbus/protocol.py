@@ -939,7 +939,7 @@ class SellTimeOfUseWritable(WritableRegister):
 
         when used from the WritableRegisters class
 
-        >>> from deye_controller.modbus.protocol import GenPortMode
+        >>> from deye_controller.modbus.protocol import TimeOfUse
         >>> from deye_controller.modbus.protocol import WritableRegisters
         >>> wr = WritableRegisters()
         >>> wr.SellTimeOfUseWritable.set([TimeOfUse.ENABLED, TimeOfUse.MONDAY])
