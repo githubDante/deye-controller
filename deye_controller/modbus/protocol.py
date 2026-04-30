@@ -926,6 +926,39 @@ class GenPortUseWritable(WritableRegister):
             self.modbus_value = x.value
             self.value = x
 
+class SellTimeOfUseWritable(WritableRegister):
+    """
+    Set the Time of Use 
+    Example:
+        >>> from deye_controller.modbus.protocol import SellTimeOfUseWritable
+        >>> from deye_controller.modbus.enums import TimeOfUse
+        >>> v = SellTimeOfUseWritable()
+        >>> v.set([TimeOfUse.ENABLED, TimeOfUse.MONDAY])
+        or directly as int
+        >>> v.set(2)
+
+        when used from the WritableRegisters class
+
+        >>> from deye_controller.modbus.protocol import GenPortMode
+        >>> from deye_controller.modbus.protocol import WritableRegisters
+        >>> wr = WritableRegisters()
+        >>> wr.SellTimeOfUseWritable.set([TimeOfUse.ENABLED, TimeOfUse.MONDAY])
+    """
+
+    def __init__(self):
+        super().__init__(146)
+
+    def set(self, x: Union[int, List[TimeOfUse]]):
+        if isinstance(x, list) and all(isinstance(item, TimeOfUse) for item in x):
+            self.modbus_value = sum(x)
+            self.value = x
+        elif isinstance(x, int):
+            if x> 255 or x < 0:
+                raise ValueError('Invalid value. int value must be between 0 and 255. Look at TimeOfUse for hints')
+            self.modbus_value = x
+            self.value = TimeOfUse.from_int(x)
+        else:
+            raise ValueError('Invalid value. Must be int or List[TimeOfUse]')
 
 class WritableRegisters:
 
@@ -952,8 +985,8 @@ class WritableRegisters:
     TEMPCO_mV = IntWritable(address=107, low_limit=0, high_limit=50)
 
     """ Charge / Discharge """
-    MaxChargeAmps = IntWritable(address=108, low_limit=0, high_limit=185)
-    MaxDischargeAmps = IntWritable(address=109, low_limit=0, high_limit=185)
+    MaxChargeAmps = IntWritable(address=108, low_limit=0, high_limit=240)
+    MaxDischargeAmps = IntWritable(address=109, low_limit=0, high_limit=240)
 
     BatteryControl = IntWritable(address=111, low_limit=0, high_limit=2)
     """ See enums.BatteryControlMode """
@@ -977,6 +1010,7 @@ class WritableRegisters:
     GridChargeStartCapacity = IntWritable(address=127, low_limit=0, high_limit=100)
     """ High limit - 63 in the MODBUS documentation """
     GridChargeBattCurrent = IntWritable(address=128, low_limit=0, high_limit=185)
+    GeneratorChargeEnable = BoolWritable(address=129)
     GridChargeEnable = BoolWritable(address=130)
 
     """ Smart load options """
@@ -989,7 +1023,7 @@ class WritableRegisters:
     InverterWorkMode = IntWritable(address=142, low_limit=0, high_limit=2)
     GridExportLimit = IntWritable(address=143, low_limit=0, high_limit=15000)
     SolarSell = BoolWritable(address=145)
-
+    SellTimeOfUse = SellTimeOfUseWritable()
     SellModeT1 = TimeWritable(148)
     SellModeT2 = TimeWritable(149)
     SellModeT3 = TimeWritable(150)
