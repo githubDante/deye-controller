@@ -942,7 +942,7 @@ class SellTimeOfUseWritable(WritableRegister):
         >>> from deye_controller.modbus.protocol import TimeOfUse
         >>> from deye_controller.modbus.protocol import WritableRegisters
         >>> wr = WritableRegisters()
-        >>> wr.SellTimeOfUseWritable.set([TimeOfUse.ENABLED, TimeOfUse.MONDAY])
+        >>> wr.SellTimeOfUse.set([TimeOfUse.ENABLED, TimeOfUse.MONDAY])
     """
 
     def __init__(self):
